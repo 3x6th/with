@@ -88,6 +88,7 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<configuration>
 					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
+					<changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
 				</configuration>
 			</plugin>
 		</plugins>
