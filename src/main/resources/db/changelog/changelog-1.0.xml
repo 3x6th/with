@@ -6,6 +6,6 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="Initializing-Tables" author="Perevalov-NA">
-        <sqlFile path="sql/init_tables.sql"/>
+        <sqlFile path="sql/init_tables.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>
