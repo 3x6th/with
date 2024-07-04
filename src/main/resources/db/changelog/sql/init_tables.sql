@@ -23,13 +23,13 @@ CREATE TABLE app_user
 CREATE TABLE role
 (
     id   INTEGER PRIMARY KEY,
-    role VARCHAR(50) CHECK (role IN ('ADMIN', 'EMPLOYER', 'APPLICANT'))
+    role VARCHAR(50) CHECK (role IN ('ROLE_ADMIN', 'ROLE_EMPLOYER', 'ROLE_APPLICANT'))
 );
 
 INSERT INTO role (id, role)
-VALUES (1, 'ADMIN'),
-       (2, 'EMPLOYER'),
-       (3, 'APPLICANT');
+VALUES (1, 'ROLE_ADMIN'),
+       (2, 'ROLE_EMPLOYER'),
+       (3, 'ROLE_APPLICANT');
 
 CREATE TABLE user_role
 (
