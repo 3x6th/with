@@ -1,0 +1,14 @@
+openapi: 3.0.0
+info:
+  title: API of service WEB3.WITH
+  description: Operations of service
+  version: 1.0.0
+servers:
+  - url: /main
+paths:
+  /vacancies:
+    get:
+      summary: Получение списка вакансий
+      operationId: getVacancies
+      tags:
+        - Vacancies
