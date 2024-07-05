@@ -21,7 +21,7 @@ paths:
                 $ref: '#/components/schemas/VacanciesRs'
 components:
   schemas:
-    VacanciesRs:
+    VacancyDTO:
       type: object
       properties:
         id:
@@ -31,3 +31,10 @@ components:
           type: string
         description:
           type: string
+    VacanciesRs:
+      type: object
+      properties:
+        vacancies:
+          type: array
+          items:
+            $ref: '#/components/schemas/VacancyDTO'
