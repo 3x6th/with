@@ -37,3 +37,10 @@ CREATE TABLE user_role
     role_id INTEGER REFERENCES role (id),
     PRIMARY KEY (user_id, role_id)
 );
+
+CREATE TABLE vacancy
+(
+    id BIGSERIAL PRIMARY KEY,
+    title VARCHAR(100),
+    description TEXT
+)

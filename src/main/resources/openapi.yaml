@@ -12,3 +12,22 @@ paths:
       operationId: getVacancies
       tags:
         - Vacancies
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/VacanciesRs'
+components:
+  schemas:
+    VacanciesRs:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string

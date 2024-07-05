@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: with
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+    jpa:
+      database-platform: org.hibernate.dialect.PostgresSQLDialect
+      hibernate:
+        ddl-auto: validate
+      show-sql: true
+
+vacancy:
+  pageSize: 25
