@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VacancyRepository extends JpaRepository<VacancyEntity, Long> {
 
-    Page<VacancyEntity> findPage(Pageable pageable);
+    Page<VacancyEntity> findAll(Pageable pageable);
 }

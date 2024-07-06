@@ -14,5 +14,24 @@ spring:
         ddl-auto: validate
       show-sql: true
 
+  logging:
+    level:
+      root: INFO
+
+
 vacancy:
   pageSize: 25
+
+
+management:
+  endpoint:
+    loggers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: 'prometheus, health, loggers'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
