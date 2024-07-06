@@ -8,16 +8,13 @@ spring:
     password: ${DB_PASSWD:postgres}
     driver-class-name: org.postgresql.Driver
 
-    jpa:
-      database-platform: org.hibernate.dialect.PostgresSQLDialect
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    properties:
       hibernate:
-        ddl-auto: validate
-      show-sql: true
-
-  logging:
-    level:
-      root: INFO
-
+        show_sql: true
 
 vacancy:
   pageSize: 25
@@ -31,7 +28,11 @@ management:
     web:
       exposure:
         include: 'prometheus, health, loggers'
-  metrics:
-    export:
-      prometheus:
+  prometheus:
+    metrics:
+      export:
         enabled: true
+
+logging:
+  level:
+    root: INFO
