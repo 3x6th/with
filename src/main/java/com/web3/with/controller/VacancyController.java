@@ -19,7 +19,7 @@ public class VacancyController implements VacanciesApi {
     private final VacancyService vacancyService;
 
     @Override
-    public ResponseEntity<VacanciesRs> getVacancies(String contentType, VacancyRq vacancyRq) {
+    public ResponseEntity<VacanciesRs> getVacancies(VacancyRq vacancyRq, String contentType) {
         return new ResponseEntity<>(vacancyService.getVacancies(), HttpStatus.OK);
     }
 

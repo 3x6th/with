@@ -18,7 +18,9 @@ public interface VacancyMapper {
     @Mappings({
             @Mapping(source = "id", target = "id"),
             @Mapping(source = "title", target = "title"),
-//            @Mapping(source = "description", target = "description")
+            @Mapping(source = "salary", target = "salary"),
+            @Mapping(source = "employer.companyName", target = "companyName", defaultValue = ""),
+            @Mapping(source = "tagList", target = "tags")
     })
     VacancyPreviewDTO entityToDto(VacancyEntity entity);
 

@@ -29,7 +29,7 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public VacanciesRs getVacancies() {
         Pageable pageable = PageRequest.of(0, pageSize);
-        Page<VacancyEntity> page = vacancyRepository.findAll(pageable);
+        Page<VacancyEntity> page = vacancyRepository.findAllWithCompanyNameAndTags(pageable);
         return vacancyMapper.pageToResponse(page, page.isLast());
     }
 }

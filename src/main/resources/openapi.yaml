@@ -15,11 +15,12 @@ paths:
       parameters:
         - in: header
           name: Content-Type
-          required: true
+          required: false
           schema:
             type: string
             enum:
               - application/json
+          default: application/json
       requestBody:
         required: true
         content:
