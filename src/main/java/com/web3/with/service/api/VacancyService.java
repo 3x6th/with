@@ -5,5 +5,5 @@ import org.openapitools.model.VacanciesRs;
 
 public interface VacancyService {
 
-    VacanciesRs getVacancies();
+    VacanciesRs getVacancies(int pageNumber);
 }

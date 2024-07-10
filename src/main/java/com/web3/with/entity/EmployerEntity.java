@@ -7,10 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
 @Table(name="employer")
+@EqualsAndHashCode(exclude = {"vacancies"})
 public class EmployerEntity {
 
     @Id

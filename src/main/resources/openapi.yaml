@@ -73,7 +73,7 @@ components:
       properties:
         page:
           type: integer
-          format: int64
+          format: int32
 #        size:
 #          type: integer
 #          format: int64
@@ -113,7 +113,8 @@ components:
           type: array
           description: Array of tags
           items:
-            $ref: '#/components/schemas/TagDTO'
+            type: string
+#            $ref: '#/components/schemas/TagDTO'
 
     VacancyPreviewDTO:
       type: object
@@ -131,13 +132,14 @@ components:
           type: array
           description: Array of tags
           items:
-            $ref: '#/components/schemas/TagDTO'
+            type: string
+#            $ref: '#/components/schemas/TagDTO'
 
-    TagDTO:
-      type: object
-      properties:
-        name:
-          type: string
+#    TagDTO:
+#      type: object
+#      properties:
+#        name:
+#          type: string
 
     WithAppExceptionDTO:
       type: object

@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,6 +20,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "vacancy")
+@EqualsAndHashCode(exclude = {"employer", "tagList"})
 public class VacancyEntity {
 
     @Id
