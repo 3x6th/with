@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -25,11 +25,11 @@ public class VacancyServiceImpl implements VacancyService {
     @Value("${vacancy.pageSize}")
     private int pageSize;
 
+    @Transactional
     @Override
     public VacanciesRs getVacancies() {
         Pageable pageable = PageRequest.of(0, pageSize);
         Page<VacancyEntity> page = vacancyRepository.findAll(pageable);
-
-        return vacancyMapper.pageToResponse(page);
+        return vacancyMapper.pageToResponse(page, page.isLast());
     }
 }

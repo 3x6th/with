@@ -40,7 +40,24 @@ CREATE TABLE user_role
 
 CREATE TABLE vacancy
 (
-    id BIGSERIAL PRIMARY KEY,
-    title VARCHAR(100),
-    description TEXT
-)
+    id          BIGSERIAL PRIMARY KEY,
+    title       VARCHAR(255) NOT NULL,
+    description TEXT,
+    salary      VARCHAR(50),
+    work_mode    VARCHAR(50),
+    location    VARCHAR(255),
+    employer_id BIGINT REFERENCES employer (id)
+);
+
+CREATE TABLE tag
+(
+    id   BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE vacancy_tag
+(
+    vacancy_id BIGINT REFERENCES vacancy (id),
+    tag_id     BIGINT REFERENCES tag (id),
+    PRIMARY KEY (vacancy_id, tag_id)
+);
