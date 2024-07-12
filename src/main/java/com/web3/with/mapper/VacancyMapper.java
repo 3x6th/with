@@ -26,7 +26,7 @@ public interface VacancyMapper {
             @Mapping(source = "employer.companyName", target = "companyName", defaultValue = ""),
             @Mapping(source = "tagList", target = "tags", qualifiedByName = "mapTags")
     })
-    VacancyPreviewDTO entityToDto(VacancyEntity entity);
+    VacancyPreviewDTO entityToPreviewDto(VacancyEntity entity);
 
     @Mappings({
             @Mapping(source = "id", target = "id"),
@@ -49,7 +49,7 @@ public interface VacancyMapper {
 
     default VacanciesRs pageToResponse(Page<VacancyEntity> page, boolean isLastPage) {
         List<VacancyPreviewDTO> dtoList = page.stream()
-                .map(this::entityToDto)
+                .map(this::entityToPreviewDto)
                 .collect(Collectors.toList());
         return new VacanciesRs(dtoList, isLastPage);
     }
