@@ -6,12 +6,15 @@ import com.web3.with.repository.VacancyRepository;
 import com.web3.with.service.api.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.model.VacanciesRs;
+import org.openapitools.model.VacancyDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 
 @Service
@@ -31,5 +34,11 @@ public class VacancyServiceImpl implements VacancyService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<VacancyEntity> page = vacancyRepository.findAllWithCompanyNameAndTags(pageable);
         return vacancyMapper.pageToResponse(page, page.isLast());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<VacancyDTO> findById(Long id) {
+        return vacancyRepository.findById(id).map(vacancyMapper::entityToSimpleDto);
     }
 }
