@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("api/v1")
 @RequiredArgsConstructor
 public class VacancyController implements VacanciesApi {
 

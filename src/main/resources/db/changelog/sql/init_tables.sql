@@ -17,7 +17,11 @@ CREATE TABLE app_user
 (
     id       BIGSERIAL PRIMARY KEY,
     login    VARCHAR(50),
-    password VARCHAR(50)
+    email    VARCHAR(50),
+    password VARCHAR(255),
+    email_verified BOOLEAN DEFAULT FALSE,
+    auth_provider VARCHAR(15),
+    image_url TEXT
 );
 
 CREATE TABLE role

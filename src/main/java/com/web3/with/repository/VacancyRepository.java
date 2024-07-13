@@ -14,6 +14,9 @@ public interface VacancyRepository extends JpaRepository<VacancyEntity, Long> {
 
     Page<VacancyEntity> findAll(Pageable pageable);
 
-    @Query("SELECT v FROM VacancyEntity v LEFT JOIN FETCH v.employer e LEFT JOIN FETCH v.tagList t")
+    @Query("SELECT v " +
+            "FROM VacancyEntity v " +
+            "LEFT JOIN FETCH v.employer e " +
+            "LEFT JOIN FETCH v.tagList t")
     Page<VacancyEntity> findAllWithCompanyNameAndTags(Pageable pageable);
 }

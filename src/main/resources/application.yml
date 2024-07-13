@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: /api/v1/
+
 spring:
   application:
     name: with
@@ -5,11 +9,10 @@ spring:
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
     username: ${DB_USER:postgres}
-    password: ${DB_PASSWD:postgres}
+    password: ${DB_PASSWD:postgrespw}
     driver-class-name: org.postgresql.Driver
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: validate
     properties:
@@ -19,6 +22,9 @@ spring:
 vacancy:
   pageSize: 25
 
+jwt:
+  secret: QNsgkaQlOLZcgaQL0IX5XHK84M+g7V2sDlVZDdAeR4s=
+  duration: 15m
 
 management:
   endpoint:

@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class VacancyServiceImpl implements VacancyService {
 
     private final VacancyRepository vacancyRepository;
@@ -28,15 +29,15 @@ public class VacancyServiceImpl implements VacancyService {
     @Value("${vacancy.pageSize}")
     private int pageSize;
 
-    @Transactional
+
     @Override
+    @Transactional
     public VacanciesRs getVacancies(int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<VacancyEntity> page = vacancyRepository.findAllWithCompanyNameAndTags(pageable);
         return vacancyMapper.pageToResponse(page, page.isLast());
     }
 
-    @Transactional(readOnly = true)
     @Override
     public Optional<VacancyDTO> findById(Long id) {
         return vacancyRepository.findById(id).map(vacancyMapper::entityToSimpleDto);
