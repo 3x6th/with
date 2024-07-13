@@ -8,6 +8,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.Mappings;
 import org.mapstruct.Named;
 import org.openapitools.model.VacanciesRs;
+import org.openapitools.model.VacancyDTO;
 import org.openapitools.model.VacancyPreviewDTO;
 import org.springframework.data.domain.Page;
 
@@ -25,7 +26,19 @@ public interface VacancyMapper {
             @Mapping(source = "employer.companyName", target = "companyName", defaultValue = ""),
             @Mapping(source = "tagList", target = "tags", qualifiedByName = "mapTags")
     })
-    VacancyPreviewDTO entityToDto(VacancyEntity entity);
+    VacancyPreviewDTO entityToPreviewDto(VacancyEntity entity);
+
+    @Mappings({
+            @Mapping(source = "id", target = "id"),
+            @Mapping(source = "title", target = "title"),
+            @Mapping(source = "description", target = "description"),
+            @Mapping(source = "salary", target = "salary"),
+            @Mapping(source = "employer.companyName", target = "companyName", defaultValue = ""),
+            @Mapping(source = "workMode", target = "workMode"),
+            @Mapping(source = "location", target = "location"),
+            @Mapping(source = "tagList", target = "tags", qualifiedByName = "mapTags")
+    })
+    VacancyDTO entityToSimpleDto(VacancyEntity entity);
 
     @Named("mapTags")
     default List<String> mapTags(Set<TagEntity> tags) {
@@ -36,7 +49,7 @@ public interface VacancyMapper {
 
     default VacanciesRs pageToResponse(Page<VacancyEntity> page, boolean isLastPage) {
         List<VacancyPreviewDTO> dtoList = page.stream()
-                .map(this::entityToDto)
+                .map(this::entityToPreviewDto)
                 .collect(Collectors.toList());
         return new VacanciesRs(dtoList, isLastPage);
     }
