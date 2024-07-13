@@ -22,14 +22,13 @@ public class AuthLocalController {
             @RequestBody RegistrationDto registrationDto
     ) throws BadRequestException {
         authService.register(registrationDto);
-        return new AppSecurityResponse(HttpStatus.OK, "Registered Successfully");
+        return new AppSecurityResponse(HttpStatus.OK.value(), "Registered Successfully");
     }
 
     @PostMapping("/auth")
     public AppSecurityResponse auth(
             @RequestBody AuthDto authDto
     ) {
-        return new AppSecurityResponse(HttpStatus.OK, authService.authenticate(authDto));
+        return new AppSecurityResponse(HttpStatus.OK.value(), authService.authenticate(authDto));
     }
-
 }

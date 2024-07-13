@@ -18,10 +18,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+
 @Service
 @RequiredArgsConstructor
-@Slf4j
 @Transactional(readOnly = true)
+@Slf4j
 public class AuthLocalServiceImpl implements AuthLocalService {
 
     private final UserService userService;
@@ -38,29 +40,25 @@ public class AuthLocalServiceImpl implements AuthLocalService {
             throw new BadRequestException("User already exists");
         }
         var user = userMapper.registrationDtoToUser(registrationDto);
-        user.setAuthProvider(AuthProvider.local);
+        user.setAuthProvider(AuthProvider.LOCAL);
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         var role = roleRepository.findByRole(registrationDto.getRole());
         if (role == null) {
             throw new BadRequestException("Role not found");
         }
-        user.setRole(role);
-        log.info("Roles before saving: {}", user.getRole());
+        user.getRoles().add(role);
+        log.info("Roles before saving: {}", user.getRoles());
 
         userService.save(user);
 
-        log.info("User saved with roles: {}", user.getRole());
+        log.info("User saved with roles: {}", user.getRoles());
     }
 
     @Override
     public String authenticate(AuthDto authDto) {
-        var token = new UsernamePasswordAuthenticationToken(
-                authDto.getEmail(),
-                authDto.getPassword()
-        );
+        var token = new UsernamePasswordAuthenticationToken(authDto.getEmail(), authDto.getPassword());
         var auth = authenticationManager.authenticate(token);
         var user = (UserDetails) auth.getPrincipal();
         return jwtUtil.generateJwtToken(user);
     }
-
 }

@@ -1,29 +1,15 @@
+server:
+  servlet:
+    context-path: /api/v1/
+
 spring:
   application:
     name: with
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            clientId: ''
-            clientSecret: ''
-            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
-            scope:
-              - email
-              - profile
-          github:
-            clientId: ''
-            clientSecret: ''
-            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
-            scope:
-              - user:email
-              - read:user
 
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
     username: ${DB_USER:postgres}
-    password: ${DB_PASSWD:postgres}
+    password: ${DB_PASSWD:postgrespw}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -32,45 +18,13 @@ spring:
     properties:
       hibernate:
         show_sql: true
-        format_sql: true
-    show-sql: true
-
-  cloud:
-    vault:
-      uri: ${VAULT_SERVER}
-      connection-timeout: 5000
-      read-timeout: 15000
-      authentication: TOKEN
-      token: ${VAULT_TOKEN}
-      kv:
-        application-name: with
-        enabled: true
-        backend: secret
-        profile-separator: '/'
-        default-context: with
-
-  config:
-    import: vault://
-
-  cloud:
-    vault:
-      uri: ${VAULT_SERVER}
-      connection-timeout: 5000
-      read-timeout: 15000
-      authentication: TOKEN
-      token: ${VAULT_TOKEN}
-      kv:
-        application-name: with
-        enabled: true
-        backend: secret
-        profile-separator: '/'
-        default-context: with
-
-  config:
-    import: vault://
 
 vacancy:
   pageSize: 25
+
+jwt:
+  secret: QNsgkaQlOLZcgaQL0IX5XHK84M+g7V2sDlVZDdAeR4s=
+  duration: 15m
 
 management:
   endpoint:
@@ -87,28 +41,10 @@ management:
 
 logging:
   level:
-    root: info
+    root: INFO
 
 springdoc:
   api-docs:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
-    oauth:
-      client-id: ${spring.security.oauth2.client.registration.google.clientId}
-      client-secret: ${spring.security.oauth2.client.registration.google.clientSecret}
-      scopes: openid,email,profile
-      useBasicAuthenticationWithAccessCodeGrant: true
-    oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html
-
-app:
-  auth:
-    tokenSecret: ''
-    duration: 15m
-  cors:
-    allowedOrigins: http://localhost:3000,http://localhost:8080
-  oauth2:
-    authorizedRedirectUris:
-      - http://localhost:3000/oauth2/redirect
-      - myandroidapp://oauth2/redirect
-      - myiosapp://oauth2/redirect
