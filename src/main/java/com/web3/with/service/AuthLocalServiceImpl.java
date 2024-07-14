@@ -22,8 +22,8 @@ import java.util.HashSet;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Slf4j
+@Transactional(readOnly = true)
 public class AuthLocalServiceImpl implements AuthLocalService {
 
     private final UserService userService;

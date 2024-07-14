@@ -1,4 +1,4 @@
-package com.web3.with.security.config;
+package com.web3.with.security.model.context.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -66,11 +65,11 @@ public class SecurityConfig {
         return (request, response, authException) -> {
             response.setContentType("application/json");
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.getWriter().write(createUnauthorizedJson(HttpStatus.UNAUTHORIZED.value()));
+            response.getWriter().write(createUnauthorizedJson(HttpStatus.UNAUTHORIZED));
         };
     }
 
-    private String createUnauthorizedJson(int status) throws JsonProcessingException {
+    private String createUnauthorizedJson(HttpStatus status) throws JsonProcessingException {
         AppSecurityResponse appError = new AppSecurityResponse(status, "Unauthorized");
         var mapper = new ObjectMapper();
         JavaTimeModule javaTimeModule = new JavaTimeModule();
