@@ -18,6 +18,8 @@ spring:
     properties:
       hibernate:
         show_sql: true
+        format_sql: true
+    show-sql: true
 
 vacancy:
   pageSize: 25

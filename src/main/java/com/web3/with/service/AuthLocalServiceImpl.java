@@ -18,8 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -46,12 +44,12 @@ public class AuthLocalServiceImpl implements AuthLocalService {
         if (role == null) {
             throw new BadRequestException("Role not found");
         }
-        user.getRoles().add(role);
-        log.info("Roles before saving: {}", user.getRoles());
+        user.setRole(role);
+        log.info("Roles before saving: {}", user.getRole());
 
         userService.save(user);
 
-        log.info("User saved with roles: {}", user.getRoles());
+        log.info("User saved with roles: {}", user.getRole());
     }
 
     @Override

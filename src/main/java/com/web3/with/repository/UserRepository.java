@@ -1,6 +1,6 @@
 package com.web3.with.repository;
 
-import com.web3.with.entity.User;
+import com.web3.with.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,13 +8,14 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    @Query("SELECT u " +
-            "FROM User u " +
-            "LEFT JOIN FETCH u.roles " +
+    @Query("SELECT DISTINCT u " +
+            "FROM UserEntity u " +
+            "JOIN FETCH u.role " +
             "WHERE u.email = :email")
-    Optional<User> findByEmailWithRoles(String email);
+    Optional<UserEntity> findByEmailWithRoles(String email);
 
     boolean existsByEmail(String email);
+
 }
