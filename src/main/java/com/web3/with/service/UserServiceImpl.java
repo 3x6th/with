@@ -1,6 +1,6 @@
 package com.web3.with.service;
 
-import com.web3.with.entity.User;
+import com.web3.with.entity.UserEntity;
 import com.web3.with.exception.http.NotFoundException;
 import com.web3.with.mapper.UserMapper;
 import com.web3.with.repository.UserRepository;
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public User findByUsername(String email) {
+    public UserEntity findByUsername(String email) {
         return userRepository.findByEmailWithRoles(email)
                 .orElseThrow(() -> new NotFoundException("User not found"));
     }
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void save(User user) {
+    public void save(UserEntity user) {
         userRepository.save(user);
     }
 
