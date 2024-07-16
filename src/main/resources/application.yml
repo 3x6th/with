@@ -5,6 +5,24 @@ server:
 spring:
   application:
     name: with
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: <GOOGLE_CLIENT_ID>
+            clientSecret: <GOOGLE_CLIENT_SECRET>
+            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+          github:
+            clientId: <GITHUB_CLIENT_ID>
+            clientSecret: <GITHUB_CLIENT_SECRET>
+            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user:email
+              - read:user
 
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
