@@ -4,11 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * Configuration for web MVC.
- */
 public class WebMvcConfig implements WebMvcConfigurer {
-
     private final long MAX_AGE_SECS = 3600;
 
     @Value("${app.cors.allowedOrigins}")
@@ -23,5 +19,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowCredentials(true)
                 .maxAge(MAX_AGE_SECS);
     }
-
 }
