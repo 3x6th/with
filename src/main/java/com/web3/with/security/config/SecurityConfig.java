@@ -1,10 +1,11 @@
-package com.web3.with.security.model.context.config;
+package com.web3.with.security.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.web3.with.security.filters.JwtFilter;
+import com.web3.with.security.oauth2.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.web3.with.security.securityResponse.AppSecurityResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +20,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizationSuccessHandler;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.time.LocalDateTime;
@@ -31,19 +36,45 @@ import java.time.format.DateTimeFormatter;
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
+    private final DefaultOAuth2UserService oAuth2UserService;
+    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    private final SimpleUrlAuthenticationSuccessHandler oAuth2AuthorizationSuccessHandler;
+    private final SimpleUrlAuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
     private final JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(
-                        request -> request
-                                .requestMatchers("/vacancies/**").authenticated()
-                                .anyRequest().permitAll()
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(
+                                "/",
+                                "/error",
+                                "/favicon.ico",
+                                "/*/**.png",
+                                "/*/**.gif",
+                                "/*/**.svg",
+                                "/*/**.jpg",
+                                "/*/**.html",
+                                "/*/**.css",
+                                "/*/**.js"
+                        ).permitAll()
+                        .requestMatchers("/auth", "/oauth2/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(policy -> policy.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
                         .authenticationEntryPoint(unauthorizedEntryPoint()))
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .oauth2Login(oAuth2LoginConfigurer -> {
+                    oAuth2LoginConfigurer
+                            .authorizationEndpoint(endpoint -> endpoint.baseUri("/oauth2/authorize")
+                                    .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository))
+                            .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/**"))
+                            .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
+                            .successHandler(oAuth2AuthorizationSuccessHandler)
+                            .failureHandler(oAuth2AuthenticationFailureHandler);
+                })
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

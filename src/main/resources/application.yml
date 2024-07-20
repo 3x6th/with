@@ -12,14 +12,14 @@ spring:
           google:
             clientId: <GOOGLE_CLIENT_ID>
             clientSecret: <GOOGLE_CLIENT_SECRET>
-            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile
           github:
             clientId: <GITHUB_CLIENT_ID>
             clientSecret: <GITHUB_CLIENT_SECRET>
-            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - user:email
               - read:user
@@ -41,10 +41,6 @@ spring:
 
 vacancy:
   pageSize: 25
-
-jwt:
-  secret: QNsgkaQlOLZcgaQL0IX5XHK84M+g7V2sDlVZDdAeR4s=
-  duration: 15m
 
 management:
   endpoint:
@@ -68,3 +64,15 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+app:
+  auth:
+    tokenSecret: QNsgkaQlOLZcgaQL0IX5XHK84M+g7V2sDlVZDdAeR4s=
+    duration: 15m
+  cors:
+    allowedOrigins: http://localhost:3000,http://localhost:8080
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect

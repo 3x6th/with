@@ -2,11 +2,7 @@ package com.web3.with.mapper;
 
 import com.web3.with.entity.TagEntity;
 import com.web3.with.entity.VacancyEntity;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.Mappings;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 import org.openapitools.model.VacanciesRs;
 import org.openapitools.model.VacancyDTO;
 import org.openapitools.model.VacancyPreviewDTO;

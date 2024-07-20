@@ -1,9 +1,11 @@
 package com.web3.with.util;
 
+import com.web3.with.security.config.AppProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,14 +16,10 @@ import java.time.Duration;
 import java.util.*;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private String secret;
-
-    @Value("${jwt.duration}")
-    private Duration duration;
-
+    private final AppProperties appProperties;
 
     public String generateJwtToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
@@ -32,16 +30,17 @@ public class JwtUtil {
                         .toList();
         claims.put("authorities", authorities);
         Date date = new Date();
-        Date expiration = new Date(date.getTime() + duration.toMillis());
+        Date expiration = new Date(date.getTime() + appProperties.getAuth().getDuration().toMillis());
         return Jwts
                 .builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(date)
                 .setExpiration(expiration)
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(SignatureAlgorithm.HS256, appProperties.getAuth().getTokenSecret())
                 .compact();
     }
+
 
     public String getSubject(String token) {
         return getAllClaimsFromToken(token).getSubject();
@@ -50,7 +49,7 @@ public class JwtUtil {
 
     public Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(secret)
+                .setSigningKey(appProperties.getAuth().getTokenSecret())
                 .parseClaimsJws(token)
                 .getBody();
     }

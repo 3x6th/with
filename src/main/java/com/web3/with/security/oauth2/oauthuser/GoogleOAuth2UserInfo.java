@@ -1,18 +1,19 @@
 package com.web3.with.security.oauth2.oauthuser;
 
-import com.web3.with.security.oauth2.oauthuser.base.Oauth2UserInfo;
+import com.web3.with.security.oauth2.oauthuser.base.OAuth2UserInfo;
 
 import java.util.Map;
 
-public class GitHubOauth2UserInfo extends Oauth2UserInfo {
 
-    public GitHubOauth2UserInfo(Map<String, Object> attributes) {
+public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
+
+    public GoogleOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
     }
 
     @Override
     public String getId() {
-        return ((Integer) attributes.get("id")).toString();
+        return (String) attributes.get("sub");
     }
 
     @Override
@@ -27,6 +28,6 @@ public class GitHubOauth2UserInfo extends Oauth2UserInfo {
 
     @Override
     public String getImageUrl() {
-        return (String) attributes.get("avatar_url");
+        return (String) attributes.get("picture");
     }
 }
