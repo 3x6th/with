@@ -23,5 +23,5 @@ public interface VacancyService {
      * @return {@link VacancyDTO} Если вакансии найдена вернет объект,
      * содержащий внутри себя ссылку на объект вакансии, иначе пустой объект
      */
-    Optional<VacancyDTO> findById(Long id);
+    VacancyDTO findById(Long id);
 }
