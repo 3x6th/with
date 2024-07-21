@@ -1,13 +1,10 @@
 package com.web3.with.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Set;
 
 @Data
 @Entity
@@ -22,7 +19,20 @@ public class EmployerEntity {
     @Column(name = "company_name")
     private String companyName;
 
+    @Column(name = "website")
+    private String website;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "location")
+    private String location;
+
     @Column(name = "email")
     private String email;
+
+//     Возможное поле для связи с VacancyEntity, если это необходимо добавить
+//     @OneToMany(mappedBy = "employer")
+//     private Set<VacancyEntity> vacancies;
 
 }
