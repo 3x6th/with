@@ -12,5 +12,4 @@ public class WithApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WithApplication.class, args);
 	}
-
 }

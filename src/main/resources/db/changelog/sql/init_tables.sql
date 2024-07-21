@@ -9,7 +9,10 @@ CREATE TABLE applicant
 CREATE TABLE employer
 (
     id           BIGSERIAL PRIMARY KEY,
-    company_name VARCHAR(50),
+    company_name VARCHAR(255) NOT NULL,
+    website      VARCHAR(50),
+    description  TEXT,
+    location     VARCHAR(255),
     email        VARCHAR(50)
 );
 
@@ -43,7 +46,7 @@ CREATE TABLE vacancy
     title       VARCHAR(255) NOT NULL,
     description TEXT,
     salary      VARCHAR(50),
-    work_mode    VARCHAR(50),
+    work_mode   VARCHAR(50),
     location    VARCHAR(255),
     employer_id BIGINT REFERENCES employer (id)
 );
@@ -63,15 +66,24 @@ CREATE TABLE vacancy_tag
 
 
 -- Insert employers
-INSERT INTO employer (company_name, email) VALUES ('Tech Corp', 'contact@techcorp.com');
-INSERT INTO employer (company_name, email) VALUES ('Innovate Ltd', 'info@innovate.com');
-INSERT INTO employer (company_name, email) VALUES ('Dev Solutions', 'hr@devsolutions.com');
+INSERT INTO employer (company_name, website, description, location, email)
+VALUES
+    ('Tech Innovations', 'http://techinnovations.com', 'Leading tech company specializing in innovative solutions.', 'San Francisco, CA', 'info@techinnovations.com'),
+    ('Green Solutions', 'http://greensolutions.com', 'Dedicated to making the world a greener place through technology.', 'Portland, OR', 'contact@greensolutions.com'),
+    ('Health Plus', 'http://healthplus.com', 'Focused on delivering quality healthcare solutions.', 'New York, NY', 'support@healthplus.com'),
+    ('Gadget Galaxy', 'http://gadgetgalaxy.com', 'Your ultimate destination for gadgets and tech reviews.', 'Los Angeles, CA', 'hello@gadgetgalaxy.com'),
+    ('Finance First', 'http://financefirst.com', 'Pioneering new ways to manage your personal finance.', 'Chicago, IL', 'service@financefirst.com');
+
 
 -- Insert tags
-INSERT INTO tag (name) VALUES ('Java');
-INSERT INTO tag (name) VALUES ('Spring Boot');
-INSERT INTO tag (name) VALUES ('SQL');
-INSERT INTO tag (name) VALUES ('Microservices');
+INSERT INTO tag (name)
+VALUES ('Java');
+INSERT INTO tag (name)
+VALUES ('Spring Boot');
+INSERT INTO tag (name)
+VALUES ('SQL');
+INSERT INTO tag (name)
+VALUES ('Microservices');
 
 -- Insert vacancies
 INSERT INTO vacancy (title, description, salary, work_mode, location, employer_id)
@@ -88,17 +100,31 @@ INSERT INTO vacancy (title, description, salary, work_mode, location, employer_i
 VALUES ('Data Scientist', 'Analyze and interpret complex data', '3200', 'Hybrid', 'Chicago', 3);
 
 -- Insert vacancy_tag relationships
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (1, 1); -- Java Developer - Java
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (1, 2); -- Java Developer - Spring Boot
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (2, 3); -- Backend Developer - SQL
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (2, 4); -- Backend Developer - Microservices
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (3, 1); -- Full Stack Developer - Java
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (3, 2); -- Full Stack Developer - Spring Boot
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (3, 3); -- Full Stack Developer - SQL
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (4, 1); -- Frontend Developer - Java
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (4, 2); -- Frontend Developer - Spring Boot
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (5, 3); -- DevOps Engineer - SQL
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (5, 4); -- DevOps Engineer - Microservices
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (6, 1); -- Data Scientist - Java
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (6, 2); -- Data Scientist - Spring Boot
-INSERT INTO vacancy_tag (vacancy_id, tag_id) VALUES (6, 3); -- Data Scientist - SQL
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (1, 1); -- Java Developer - Java
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (1, 2); -- Java Developer - Spring Boot
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (2, 3); -- Backend Developer - SQL
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (2, 4); -- Backend Developer - Microservices
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (3, 1); -- Full Stack Developer - Java
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (3, 2); -- Full Stack Developer - Spring Boot
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (3, 3); -- Full Stack Developer - SQL
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (4, 1); -- Frontend Developer - Java
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (4, 2); -- Frontend Developer - Spring Boot
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (5, 3); -- DevOps Engineer - SQL
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (5, 4); -- DevOps Engineer - Microservices
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (6, 1); -- Data Scientist - Java
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (6, 2); -- Data Scientist - Spring Boot
+INSERT INTO vacancy_tag (vacancy_id, tag_id)
+VALUES (6, 3); -- Data Scientist - SQL
