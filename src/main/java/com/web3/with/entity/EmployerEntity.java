@@ -4,11 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Set;
-
 @Data
 @Entity
-@Table(name="employer")
+@Table(name = "employer")
 @EqualsAndHashCode(exclude = {"vacancies"})
 public class EmployerEntity {
 
@@ -30,9 +28,5 @@ public class EmployerEntity {
 
     @Column(name = "email")
     private String email;
-
-//     Возможное поле для связи с VacancyEntity, если это необходимо добавить
-//     @OneToMany(mappedBy = "employer")
-//     private Set<VacancyEntity> vacancies;
 
 }
