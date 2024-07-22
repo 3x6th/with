@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -61,8 +62,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 
+        DefaultOAuth2User oauthUser = (DefaultOAuth2User) authentication.getPrincipal();
+        String email = oauthUser.getAttribute("email");
+
         String token = jwtUtil
-                .generateJwtToken(userDetailsService.loadUserByUsername((String) authentication.getPrincipal()));
+                .generateJwtToken(userDetailsService.loadUserByUsername(email));
 
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", token)
