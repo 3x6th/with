@@ -38,7 +38,7 @@ public class AuthLocalServiceImpl implements AuthLocalService {
             throw new BadRequestException("User already exists");
         }
         var user = userMapper.registrationDtoToUser(registrationDto);
-        user.setAuthProvider(AuthProvider.LOCAL);
+        user.setAuthProvider(AuthProvider.local);
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         var role = roleRepository.findByRole(registrationDto.getRole());
         if (role == null) {

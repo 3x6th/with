@@ -3,6 +3,7 @@ package com.web3.with.security.oauth2.handler;
 import com.web3.with.exception.http.BadRequestException;
 import com.web3.with.security.config.AppProperties;
 import com.web3.with.security.oauth2.repository.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.web3.with.security.principal.UserPrincipal;
 import com.web3.with.util.CookieUtil;
 import com.web3.with.util.JwtUtil;
 import jakarta.servlet.ServletException;
@@ -62,7 +63,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 
-        DefaultOAuth2User oauthUser = (DefaultOAuth2User) authentication.getPrincipal();
+        UserPrincipal oauthUser = (UserPrincipal) authentication.getPrincipal();
         String email = oauthUser.getAttribute("email");
 
         String token = jwtUtil

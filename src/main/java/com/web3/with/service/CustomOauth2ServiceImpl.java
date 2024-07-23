@@ -3,25 +3,44 @@ package com.web3.with.service;
 import com.web3.with.entity.UserEntity;
 import com.web3.with.exception.oauth2.OAuth2AuthenticationProcessingException;
 import com.web3.with.mapper.UserMapper;
-import com.web3.with.repository.UserRepository;
 import com.web3.with.security.model.auth.AuthProvider;
 import com.web3.with.security.oauth2.factory.OAuth2UserInfoFactory;
 import com.web3.with.security.oauth2.oauthuser.base.OAuth2UserInfo;
+import com.web3.with.service.api.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CustomOauth2ServiceImpl extends DefaultOAuth2UserService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final UserMapper userMapper;
+
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
+        OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
+        try {
+            return processOAuth2User(oAuth2UserRequest, oAuth2User);
+        } catch (AuthenticationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            // Throwing an instance of AuthenticationException will trigger the OAuth2AuthenticationFailureHandler
+            throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
+        }
+    }
+
 
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
         // Получаем информацию о пользователе из OAuth2
@@ -36,7 +55,7 @@ public class CustomOauth2ServiceImpl extends DefaultOAuth2UserService {
         }
 
         // Ищем пользователя по email
-        Optional<UserEntity> userOptional = userRepository.findByEmailWithRoles(oAuth2UserInfo.getEmail());
+        Optional<UserEntity> userOptional = Optional.ofNullable(userService.findByUsername(oAuth2UserInfo.getEmail()));
         UserEntity user;
 
         // Если пользователь существует, обновляем его данные
@@ -46,26 +65,17 @@ public class CustomOauth2ServiceImpl extends DefaultOAuth2UserService {
             user = updateExistingUser(user, oAuth2UserInfo);
         } else {
             // Если пользователя нет, создаем нового
-            user = createOauth2User(oAuth2UserRequest, oAuth2UserInfo);
+            user = userService.createOauth2User(oAuth2UserRequest, oAuth2UserInfo);
         }
 
         // Возвращаем объект UserPrincipal с атрибутами
         return userMapper.entityToUserPrincipal(user, oAuth2User.getAttributes());
     }
 
-    private UserEntity createOauth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setAuthProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
-        userEntity.setEmail(oAuth2UserInfo.getEmail());
-        userEntity.setLogin(oAuth2UserInfo.getName());
-        userEntity.setImageUrl(oAuth2UserInfo.getImageUrl());
-        return userRepository.save(userEntity);
-    }
-
     private UserEntity updateExistingUser(UserEntity existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setLogin(oAuth2UserInfo.getName());
         existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
-        return userRepository.save(existingUser);
+        return userService.save(existingUser);
     }
 
     private void validateAuthProvider(UserEntity user, OAuth2UserRequest oAuth2UserRequest) {
