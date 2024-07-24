@@ -23,3 +23,14 @@ changeLogFile=classpath:db/changelog/db.changelog-master.xml </pre>
 Выполните цель обновления Liquibase для применения изменений в базе данных:
 <pre>mvn liquibase:update </pre>
 После выполнения этих шагов проект должен быть настроен и готов к запуску.
+
+#### 4. Change the codestyle
+Download this .xml-file:
+https://github.com/google/styleguide/blob/gh-pages/intellij-java-google-style.xml
+
+Then in Intellij, go Under Settings -> Editor -> Code Style.  
+There in Scheme settings (settings icon on right side) -> import schemes-> intellij idea code style xml.
+Select the xml downloaded.
+
+Then in Scheme dropdown select the GoogleStyle IDE (newly added style).
+Click on apply and close.
