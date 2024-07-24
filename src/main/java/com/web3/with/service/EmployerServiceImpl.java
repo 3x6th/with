@@ -22,4 +22,5 @@ public class EmployerServiceImpl implements EmployerService {
     public EmployerDTO findById(Long id) {
         return employerRepository.findById(id).map(employerMapper::entityToSimpleDto).orElseThrow(() -> new RuntimeException("Vacancy not found"));
     }
+
 }

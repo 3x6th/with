@@ -19,4 +19,5 @@ public interface EmployerMapper {
             @Mapping(source = "email", target = "email")
     })
     EmployerDTO entityToSimpleDto(EmployerEntity entity);
+
 }

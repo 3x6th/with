@@ -42,4 +42,5 @@ public class VacancyServiceImpl implements VacancyService {
                 .map(vacancyMapper::entityToSimpleDto)
                 .orElseThrow(() -> new RuntimeException("Vacancy not found"));
     }
+
 }
