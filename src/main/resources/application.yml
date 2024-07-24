@@ -16,9 +16,25 @@ spring:
       hibernate:
         show_sql: true
 
+  cloud:
+    vault:
+      uri: ${VAULT_SERVER}
+      connection-timeout: 5000
+      read-timeout: 15000
+      authentication: TOKEN
+      token: ${VAULT_TOKEN}
+      kv:
+        application-name: with
+        enabled: true
+        backend: secret
+        profile-separator: '/'
+        default-context: with
+
+  config:
+    import: vault://
+
 vacancy:
   pageSize: 25
-
 
 management:
   endpoint:
