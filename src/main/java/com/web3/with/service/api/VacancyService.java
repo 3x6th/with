@@ -3,8 +3,6 @@ package com.web3.with.service.api;
 import org.openapitools.model.VacanciesRs;
 import org.openapitools.model.VacancyDTO;
 
-import java.util.Optional;
-
 public interface VacancyService {
 
     /**

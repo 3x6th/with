@@ -47,10 +47,7 @@ public class VacancyEntity {
     private String location;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-            name = "vacancy_tag",
-            joinColumns = {@JoinColumn(name = "vacancy_id")},
-            inverseJoinColumns = {@JoinColumn(name = "tag_id")}
-    )
+    @JoinTable(name = "vacancy_tag", joinColumns = {@JoinColumn(name = "vacancy_id")}, inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private Set<TagEntity> tagList = new HashSet<>();
+
 }
