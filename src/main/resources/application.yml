@@ -3,9 +3,9 @@ spring:
     name: with
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/with_db}
-    username: fedor
-    password: fedor
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWD:postgres}
     driver-class-name: org.postgresql.Driver
 
   jpa:
