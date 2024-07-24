@@ -28,4 +28,5 @@ public class TagEntity {
 
     @ManyToMany(mappedBy = "tagList")
     private Set<VacancyEntity> vacancies = new HashSet<>();
+
 }

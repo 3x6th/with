@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 
-
 @Repository
 public interface VacancyRepository extends JpaRepository<VacancyEntity, Long> {
 
@@ -16,4 +15,5 @@ public interface VacancyRepository extends JpaRepository<VacancyEntity, Long> {
 
     @Query("SELECT v FROM VacancyEntity v LEFT JOIN FETCH v.employer e LEFT JOIN FETCH v.tagList t")
     Page<VacancyEntity> findAllWithCompanyNameAndTags(Pageable pageable);
+
 }

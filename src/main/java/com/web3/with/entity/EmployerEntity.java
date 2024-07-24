@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
-@Table(name="employer")
+@Table(name = "employer")
 @EqualsAndHashCode(exclude = {"vacancies"})
 public class EmployerEntity {
 
@@ -21,6 +21,15 @@ public class EmployerEntity {
 
     @Column(name = "company_name")
     private String companyName;
+
+    @Column(name = "website")
+    private String website;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "location")
+    private String location;
 
     @Column(name = "email")
     private String email;

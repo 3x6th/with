@@ -66,6 +66,31 @@ paths:
         '404':
           description: Вакансия не найдена
 
+  /employer/{id}:
+    get:
+      summary: Get an employer by ID
+      description: Returns detailed information about an employer.
+      operationId: getEmployerById
+      tags:
+        - Employer
+      parameters:
+        - name: id
+          in: path
+          description: ID of the employer to fetch
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Employer data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployerDTO'
+        '404':
+          description: Employer not found
+
 components:
   schemas:
     VacancyRq:
@@ -152,3 +177,26 @@ components:
           type: string
           description: Error message
           example: "Error while validating"
+
+    EmployerDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the employer
+        companyName:
+          type: string
+          description: Name of the company
+        website:
+          type: string
+          description: Website URL of the company
+        description:
+          type: string
+          description: Brief description of the company
+        location:
+          type: string
+          description: Location of the company
+        email:
+          type: string
+          description: Contact email of the company
