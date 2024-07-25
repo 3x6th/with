@@ -11,11 +11,10 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import java.util.HashSet;
 import java.util.Set;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
@@ -46,8 +45,15 @@ public class VacancyEntity {
     @Column(name = "location")
     private String location;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "vacancy_tag", joinColumns = {@JoinColumn(name = "vacancy_id")}, inverseJoinColumns = {@JoinColumn(name = "tag_id")})
+    @ManyToMany(cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH
+    })
+    @JoinTable(name = "vacancy_tag", joinColumns = {@JoinColumn(name = "vacancy_id")}, inverseJoinColumns = {
+            @JoinColumn(name = "tag_id")
+    })
     private Set<TagEntity> tagList = new HashSet<>();
 
 }
