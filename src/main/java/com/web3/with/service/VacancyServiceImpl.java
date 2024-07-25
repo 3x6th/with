@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 @RequiredArgsConstructor
 public class VacancyServiceImpl implements VacancyService {
@@ -38,8 +37,8 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public VacancyDTO findById(Long id) {
         return vacancyRepository.findById(id)
-                .map(vacancyMapper::entityToSimpleDto)
-                .orElseThrow(() -> new RuntimeException("Vacancy not found"));
+                                .map(vacancyMapper::entityToSimpleDto)
+                                .orElseThrow(() -> new RuntimeException("Vacancy not found"));
     }
 
 }

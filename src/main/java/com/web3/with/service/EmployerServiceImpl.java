@@ -8,7 +8,6 @@ import org.openapitools.model.EmployerDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 @RequiredArgsConstructor
 public class EmployerServiceImpl implements EmployerService {
@@ -20,7 +19,9 @@ public class EmployerServiceImpl implements EmployerService {
     @Transactional(readOnly = true)
     @Override
     public EmployerDTO findById(Long id) {
-        return employerRepository.findById(id).map(employerMapper::entityToSimpleDto).orElseThrow(() -> new RuntimeException("Vacancy not found"));
+        return employerRepository.findById(id)
+                                 .map(employerMapper::entityToSimpleDto)
+                                 .orElseThrow(() -> new RuntimeException("Vacancy not found"));
     }
 
 }

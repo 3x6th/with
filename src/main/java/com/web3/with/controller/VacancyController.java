@@ -20,8 +20,11 @@ public class VacancyController implements VacanciesApi {
     /**
      * POST /vacancies : Обрабатывает запрос на отображение всех вакансий
      *
-     * @param vacancyRq   Объект для передачи номера страницы (required)
-     * @param contentType Объект для передачи описания типа передаваемых данных (optional)
+     * @param vacancyRq
+     *         Объект для передачи номера страницы (required)
+     * @param contentType
+     *         Объект для передачи описания типа передаваемых данных (optional)
+     *
      * @return {@link VacanciesRs} Список вакансий
      */
     @Override
@@ -32,7 +35,9 @@ public class VacancyController implements VacanciesApi {
     /**
      * GET /vacancy/{id} : Получение вакансии по ID
      *
-     * @param id ID вакансии для получения информации (required)
+     * @param id
+     *         ID вакансии для получения информации (required)
+     *
      * @return {@link VacancyDTO} Информация о вакансии с определенным ID
      */
     @Override
