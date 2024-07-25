@@ -26,7 +26,7 @@ changeLogFile=classpath:db/changelog/db.changelog-master.xml </pre>
 
 #### 4. Change the codestyle
 Download this .xml-file:
-
+https://github.com/3x6th/code-style-based-java-google-style
 
 Then in Intellij, go Under Settings -> Editor -> Code Style.  
 There in Scheme settings (settings icon on right side) -> import schemes-> intellij idea code style xml.
