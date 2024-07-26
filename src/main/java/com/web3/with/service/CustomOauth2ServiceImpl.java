@@ -8,6 +8,7 @@ import com.web3.with.security.model.auth.AuthProvider;
 import com.web3.with.security.oauth2.factory.OAuth2UserInfoFactory;
 import com.web3.with.security.oauth2.oauthuser.base.OAuth2UserInfo;
 import com.web3.with.service.api.UserService;
+import com.web3.with.util.EmailHelper;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -95,7 +96,9 @@ public class CustomOauth2ServiceImpl extends DefaultOAuth2UserService {
 
     private UserEntity updateExistingUser(UserEntity existingUser, OAuth2UserInfo oAuth2UserInfo) {
         String login = oAuth2UserInfo.getLogin();
-        existingUser.setLogin(login != null ? login : oAuth2UserInfo.getEmail());
+        existingUser.setLogin(
+                login != null ? login : EmailHelper.parseEmail(oAuth2UserInfo.getEmail())
+        );
         existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
         return userService.save(existingUser);
     }

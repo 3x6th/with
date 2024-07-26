@@ -9,6 +9,7 @@ import com.web3.with.repository.UserRepository;
 import com.web3.with.security.model.auth.AuthProvider;
 import com.web3.with.security.oauth2.oauthuser.base.OAuth2UserInfo;
 import com.web3.with.service.api.UserService;
+import com.web3.with.util.EmailHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
         String login = oAuth2UserInfo.getLogin()
                 != null
                 ? oAuth2UserInfo.getLogin()
-                : parseLoginFromEmail(oAuth2UserInfo.getEmail());
+                : EmailHelper.parseEmail(oAuth2UserInfo.getEmail());
 
         UserEntity userEntity = UserEntity.builder()
                                           .authProvider(
@@ -116,13 +117,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userMapper.entityToUserPrincipal(findByUsername(username));
-    }
-
-    private String parseLoginFromEmail(String email) {
-        if (email == null || !email.contains("@")) {
-            throw new IllegalArgumentException("Invalid email format");
-        }
-        return email.substring(0, email.indexOf('@'));
     }
 
 }
