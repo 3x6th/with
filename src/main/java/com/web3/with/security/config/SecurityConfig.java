@@ -7,6 +7,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.web3.with.security.filters.JwtFilter;
 import com.web3.with.security.oauth2.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.web3.with.security.securityResponse.AppSecurityResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +23,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizationSuccessHandler;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,9 +30,9 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
+/**
+ * Security configuration.
+ */
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -47,37 +48,38 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers(
-                                "/",
-                                "/error",
-                                "/favicon.ico",
-                                "/*/**.png",
-                                "/*/**.gif",
-                                "/*/**.svg",
-                                "/*/**.jpg",
-                                "/*/**.html",
-                                "/*/**.css",
-                                "/*/**.js"
-                        ).permitAll()
-                        .requestMatchers("/auth", "/oauth2/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(policy -> policy.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
-                        .authenticationEntryPoint(unauthorizedEntryPoint()))
-                .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .oauth2Login(oAuth2LoginConfigurer -> {
-                    oAuth2LoginConfigurer
-                            .authorizationEndpoint(endpoint -> endpoint.baseUri("/oauth2/authorize")
-                                    .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository))
-                            .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/**"))
-                            .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
-                            .successHandler(oAuth2AuthorizationSuccessHandler)
-                            .failureHandler(oAuth2AuthenticationFailureHandler);
-                })
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+            .authorizeHttpRequests(request -> request
+                    .requestMatchers(
+                            "/",
+                            "/error",
+                            "/favicon.ico",
+                            "/*/**.png",
+                            "/*/**.gif",
+                            "/*/**.svg",
+                            "/*/**.jpg",
+                            "/*/**.html",
+                            "/*/**.css",
+                            "/*/**.js"
+                    ).permitAll()
+                    .requestMatchers("/auth", "/oauth2/**").permitAll()
+                    .anyRequest().authenticated()
+            )
+            .sessionManagement(policy -> policy.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
+                    .authenticationEntryPoint(unauthorizedEntryPoint()))
+            .formLogin(AbstractHttpConfigurer::disable)
+            .httpBasic(AbstractHttpConfigurer::disable)
+            .oauth2Login(oAuth2LoginConfigurer -> {
+                oAuth2LoginConfigurer
+                        .authorizationEndpoint(endpoint -> endpoint.baseUri("/oauth2/authorize")
+                                                                   .authorizationRequestRepository(
+                                                                           httpCookieOAuth2AuthorizationRequestRepository))
+                        .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/**"))
+                        .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
+                        .successHandler(oAuth2AuthorizationSuccessHandler)
+                        .failureHandler(oAuth2AuthenticationFailureHandler);
+            })
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -93,7 +95,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
     private AuthenticationEntryPoint unauthorizedEntryPoint() {
         return (request, response, authException) -> {
             response.setContentType("application/json");
@@ -106,8 +107,12 @@ public class SecurityConfig {
         AppSecurityResponse appError = new AppSecurityResponse(status, "Unauthorized");
         var mapper = new ObjectMapper();
         JavaTimeModule javaTimeModule = new JavaTimeModule();
-        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME));
+        javaTimeModule.addSerializer(
+                LocalDateTime.class,
+                new LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME)
+        );
         mapper.registerModule(javaTimeModule);
         return mapper.writeValueAsString(appError);
     }
+
 }

@@ -4,6 +4,9 @@ import com.web3.with.entity.EmployerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository for employer operations.
+ */
 @Repository
 public interface EmployerRepository extends JpaRepository<EmployerEntity, Long> {
 }

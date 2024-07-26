@@ -31,4 +31,5 @@ public class AuthLocalController {
     ) {
         return new AppSecurityResponse(HttpStatus.OK, authService.authenticate(authDto));
     }
+
 }

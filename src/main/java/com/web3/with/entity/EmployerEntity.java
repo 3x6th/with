@@ -9,6 +9,9 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Entity for employer.
+ */
 @Data
 @Entity
 @Table(name="employer")

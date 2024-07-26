@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-
-
+/**
+ * Repository for vacancy operations.
+ */
 @Repository
 public interface VacancyRepository extends JpaRepository<VacancyEntity, Long> {
 
@@ -19,4 +20,5 @@ public interface VacancyRepository extends JpaRepository<VacancyEntity, Long> {
             "LEFT JOIN FETCH v.employer e " +
             "LEFT JOIN FETCH v.tagList t")
     Page<VacancyEntity> findAllWithCompanyNameAndTags(Pageable pageable);
+
 }

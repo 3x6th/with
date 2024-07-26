@@ -6,15 +6,15 @@ spring:
       client:
         registration:
           google:
-            clientId: <GOOGLE_CLIENT_ID>
-            clientSecret: <GOOGLE_CLIENT_SECRET>
+            clientId: ''
+            clientSecret: ''
             redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile
           github:
-            clientId: Ov23li98feK4kwywI8bM
-            clientSecret: 8b898fb61e7838533f20617c90c1de2a133becd0
+            clientId: ''
+            clientSecret: ''
             redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - user:email
@@ -23,7 +23,7 @@ spring:
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
     username: ${DB_USER:postgres}
-    password: ${DB_PASSWD:postgrespw}
+    password: ${DB_PASSWD:postgres}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -34,6 +34,23 @@ spring:
         show_sql: true
         format_sql: true
     show-sql: true
+
+  cloud:
+    vault:
+      uri: ${VAULT_SERVER}
+      connection-timeout: 5000
+      read-timeout: 15000
+      authentication: TOKEN
+      token: ${VAULT_TOKEN}
+      kv:
+        application-name: with
+        enabled: true
+        backend: secret
+        profile-separator: '/'
+        default-context: with
+
+  config:
+    import: vault://
 
 vacancy:
   pageSize: 25
@@ -53,7 +70,7 @@ management:
 
 logging:
   level:
-    root: INFO
+    root: info
 
 springdoc:
   api-docs:
@@ -63,7 +80,7 @@ springdoc:
 
 app:
   auth:
-    tokenSecret: QNsgkaQlOLZcgaQL0IX5XHK84M+g7V2sDlVZDdAeR4s=
+    tokenSecret: ''
     duration: 15m
   cors:
     allowedOrigins: http://localhost:3000,http://localhost:8080

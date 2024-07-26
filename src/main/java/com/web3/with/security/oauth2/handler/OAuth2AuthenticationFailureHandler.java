@@ -14,6 +14,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 
+/**
+ * Class for handling OAuth2 authentication failure.
+ */
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {

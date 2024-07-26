@@ -7,6 +7,9 @@ import org.springframework.util.SerializationUtils;
 import java.util.Base64;
 import java.util.Optional;
 
+/**
+ * Class for handling cookies.
+ */
 public class CookieUtil {
 
     public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {

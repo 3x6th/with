@@ -54,9 +54,13 @@ public class AuthLocalServiceImpl implements AuthLocalService {
 
     @Override
     public String authenticate(AuthDto authDto) {
-        var token = new UsernamePasswordAuthenticationToken(authDto.getEmail(), authDto.getPassword());
+        var token = new UsernamePasswordAuthenticationToken(
+                authDto.getEmail(),
+                authDto.getPassword()
+        );
         var auth = authenticationManager.authenticate(token);
         var user = (UserDetails) auth.getPrincipal();
         return jwtUtil.generateJwtToken(user);
     }
+
 }
