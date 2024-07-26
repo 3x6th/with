@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * HttpControllerAdvice for handling exceptions.
+ */
 @RestControllerAdvice
 public class HttpControllerAdvice {
 

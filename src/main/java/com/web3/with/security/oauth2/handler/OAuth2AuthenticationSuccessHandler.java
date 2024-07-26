@@ -23,6 +23,9 @@ import java.util.Optional;
 
 import static com.web3.with.security.oauth2.repository.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
+/**
+ * Class for handling OAuth2 authentication success.
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j

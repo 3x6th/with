@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.util.*;
 
+/**
+ * Utility class for JWT token generation and validation.
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtUtil {
