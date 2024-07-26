@@ -60,7 +60,7 @@ public class SecurityConfig {
                             "/*/**.html",
                             "/*/**.css",
                             "/*/**.js",
-                            "swagger-ui/**",
+                            "/swagger-ui/**",
                             "/api-docs/**"
                     ).permitAll()
                     .requestMatchers("/auth", "/oauth2/**").permitAll()

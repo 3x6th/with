@@ -20,8 +20,8 @@ import org.springframework.context.annotation.Configuration;
         type = SecuritySchemeType.OAUTH2,
         flows = @OAuthFlows(
                 authorizationCode = @OAuthFlow(
-                        authorizationUrl = "${spring.security.oauth2.client.provider.google.authorization-uri}",
-                        tokenUrl = "${spring.security.oauth2.client.provider.google.token-uri}",
+                        authorizationUrl = "http://localhost:8080/oauth2/authorization/google",
+                        tokenUrl = "https://www.googleapis.com/oauth2/v4/token",
                         scopes = {
                                 @OAuthScope(name = "openid", description = "OpenID Connect scope"),
                                 @OAuthScope(name = "profile", description = "Profile scope"),
