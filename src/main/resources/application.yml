@@ -77,6 +77,12 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
+    oauth:
+      client-id: ${spring.security.oauth2.client.registration.google.clientId}
+      client-secret: ${spring.security.oauth2.client.registration.google.clientSecret}
+      scopes: openid,email,profile
+      useBasicAuthenticationWithAccessCodeGrant: true
+    oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html
 
 app:
   auth:
