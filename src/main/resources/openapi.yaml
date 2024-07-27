@@ -200,3 +200,8 @@ components:
         email:
           type: string
           description: Contact email of the company
+        vacancies:
+          type: array
+          description: List of vacancies offered by the employer
+          items:
+            $ref: '#/components/schemas/VacancyDTO'
