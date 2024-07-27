@@ -7,6 +7,7 @@ import com.web3.with.service.api.EmployerService;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.model.EmployerDTO;
+import org.openapitools.model.EmployerWithVacancyRs;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +25,18 @@ public class EmployerServiceImpl implements EmployerService {
     @Override
     public EmployerDTO findById(Long id) {
         return employerRepository.findById(id)
+                                 .map(employerMapper::entityToSimpleDto)
+                                 .orElseThrow(() -> new RuntimeException("employer not found"));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public EmployerWithVacancyRs findEmployerWithVacanciesById(Long id) {
+        return employerRepository.findById(id)
                                  .map(employer -> {
-                                     EmployerDTO dto = employerMapper.entityToSimpleDto(employer);
+                                     EmployerWithVacancyRs dto = employerMapper.entityToEmployerWithVacancies(employer);
                                      dto.setVacancies(employer.getVacancies().stream()
-                                                              .map(vacancyMapper::entityToSimpleDto)
+                                                              .map(vacancyMapper::entityToPreviewDto)
                                                               .collect(Collectors.toList()));
                                      return dto;
                                  })
