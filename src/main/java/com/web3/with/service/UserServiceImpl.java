@@ -7,6 +7,7 @@ import com.web3.with.mapper.UserMapper;
 import com.web3.with.repository.RoleRepository;
 import com.web3.with.repository.UserRepository;
 import com.web3.with.security.model.auth.AuthProvider;
+import com.web3.with.security.model.role.RoleName;
 import com.web3.with.security.oauth2.oauthuser.base.OAuth2UserInfo;
 import com.web3.with.service.api.UserService;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
     public UserEntity createOauth2User(
             OAuth2UserRequest oAuth2UserRequest,
             OAuth2UserInfo oAuth2UserInfo) {
-        RoleEntity roleEntity = roleRepository.findByRole("ROLE_EMPLOYER"); //TODO: исправить. Нужно получать из реквеста его
+        RoleEntity roleEntity = roleRepository.findByRole(RoleName.ROLE_DEFAULT); //TODO: исправить. Нужно получать из реквеста его
 
         String login = oAuth2UserInfo.getLogin()
                 != null
@@ -71,7 +72,7 @@ public class UserServiceImpl implements UserService {
      * @return {@link UserEntity} found user.
      */
     @Override
-    public UserEntity findByUsername(String identifier) {
+    public UserEntity findByIdentifier(String identifier) {
         return userRepository.findByEmailOrLogin(identifier)
                              .orElseThrow(() -> new NotFoundException("User not found"));
     }
@@ -79,14 +80,12 @@ public class UserServiceImpl implements UserService {
     /**
      * Method for checking if user exists by email. Returns true if user exists, false otherwise.
      *
-     * @param identifier
-     *         email.
-     *
+     * @param identifier email.
      * @return boolean true if user exists, false otherwise.
      */
     @Override
-    public boolean existsByEmail(String identifier) {
-        return userRepository.existsByEmailOrLogin(identifier); //TODO: исправить. Сюда прилетает только email, а не login
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 
     /**
@@ -115,7 +114,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userMapper.entityToUserPrincipal(findByUsername(username));
+        return userMapper.entityToUserPrincipal(findByIdentifier(username));
     }
 
     private String parseLoginFromEmail(String email) {

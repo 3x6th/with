@@ -14,6 +14,6 @@ public class UserContext {
 
     public UserEntity getCurrentUser() {
         var currentUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userService.findByUsername((String) currentUser);
+        return userService.findByIdentifier((String) currentUser);
     }
 }

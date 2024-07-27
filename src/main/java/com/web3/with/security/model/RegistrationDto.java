@@ -1,5 +1,6 @@
 package com.web3.with.security.model;
 
+import com.web3.with.security.model.role.RoleName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,6 +16,6 @@ public @Data class RegistrationDto {
 
     private String email;
 
-    private String role;
+    private RoleName role;
 
 }

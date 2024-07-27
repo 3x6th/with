@@ -12,9 +12,9 @@ public interface UserService extends UserDetailsService {
 
     UserEntity createOauth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo);
 
-    UserEntity findByUsername(String username);
+    UserEntity findByIdentifier(String username);
 
-    boolean existsByEmail(String username);
+    boolean existsByEmail(String identifier);
 
     UserEntity save(UserEntity user);
 

@@ -1,5 +1,6 @@
 package com.web3.with.service;
 
+import com.web3.with.exception.http.NotFoundException;
 import com.web3.with.mapper.EmployerMapper;
 import com.web3.with.repository.EmployerRepository;
 import com.web3.with.service.api.EmployerService;
@@ -21,7 +22,7 @@ public class EmployerServiceImpl implements EmployerService {
     public EmployerDTO findById(Long id) {
         return employerRepository.findById(id)
                                  .map(employerMapper::entityToSimpleDto)
-                                 .orElseThrow(() -> new RuntimeException("Vacancy not found"));
+                                 .orElseThrow(() -> new NotFoundException("Vacancy not found"));
     }
 
 }

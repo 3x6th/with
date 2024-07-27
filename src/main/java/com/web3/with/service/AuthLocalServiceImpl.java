@@ -18,11 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Slf4j
 public class AuthLocalServiceImpl implements AuthLocalService {
 
@@ -40,18 +37,18 @@ public class AuthLocalServiceImpl implements AuthLocalService {
             throw new BadRequestException("User already exists");
         }
         var user = userMapper.registrationDtoToUser(registrationDto);
-        user.setAuthProvider(AuthProvider.LOCAL);
+        user.setAuthProvider(AuthProvider.local);
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         var role = roleRepository.findByRole(registrationDto.getRole());
         if (role == null) {
             throw new BadRequestException("Role not found");
         }
-        user.getRoles().add(role);
-        log.info("Roles before saving: {}", user.getRoles());
+        user.setRole(role);
+        log.info("Roles before saving: {}", user.getRole());
 
         userService.save(user);
 
-        log.info("User saved with roles: {}", user.getRoles());
+        log.info("User saved with roles: {}", user.getRole());
     }
 
     @Override

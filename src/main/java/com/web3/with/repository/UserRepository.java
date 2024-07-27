@@ -23,10 +23,17 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     boolean existsByLogin(String login);
 
-    @Query("SELECT u FROM UserEntity u WHERE u.email = :identifier OR u.login = :identifier")
+    @Query("SELECT u " +
+            "FROM UserEntity u " +
+            "JOIN FETCH u.role " +
+            "WHERE u.email = :identifier OR u.login = :identifier")
     Optional<UserEntity> findByEmailOrLogin(@Param("identifier") String identifier);
 
-    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN TRUE ELSE FALSE END FROM UserEntity u WHERE u.email = :identifier OR u.login = :identifier")
+
+    @Query("SELECT CASE WHEN COUNT(u) > 0 " +
+            "THEN TRUE ELSE FALSE END " +
+            "FROM UserEntity u " +
+            "WHERE u.email = :identifier OR u.login = :identifier")
     boolean existsByEmailOrLogin(@Param("identifier") String identifier);
 
 }

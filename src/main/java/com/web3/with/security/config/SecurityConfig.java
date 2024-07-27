@@ -15,9 +15,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,12 +29,16 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  * Security configuration.
  */
 @Configuration
 @RequiredArgsConstructor
+@EnableWebSecurity
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
@@ -58,9 +62,11 @@ public class SecurityConfig {
                             "/*/**.jpg",
                             "/*/**.html",
                             "/*/**.css",
-                            "/*/**.js"
+                            "/*/**.js",
+                            "/swagger-ui/**",
+                            "/api-docs/**"
                     ).permitAll()
-                    .requestMatchers("/auth", "/oauth2/**").permitAll()
+                    .requestMatchers("/auth", "/oauth2/**", "/register").permitAll()
                     .anyRequest().authenticated()
             )
             .sessionManagement(policy -> policy.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -98,12 +104,12 @@ public class SecurityConfig {
         return (request, response, authException) -> {
             response.setContentType("application/json");
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.getWriter().write(createUnauthorizedJson(HttpStatus.UNAUTHORIZED.value()));
+            response.getWriter().write(createUnauthorizedJson());
         };
     }
 
-    private String createUnauthorizedJson(int status) throws JsonProcessingException {
-        AppSecurityResponse appError = new AppSecurityResponse(status, "Unauthorized");
+    private String createUnauthorizedJson() throws JsonProcessingException {
+        AppSecurityResponse appError = new AppSecurityResponse(HttpStatus.UNAUTHORIZED, "Unauthorized");
         var mapper = new ObjectMapper();
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         javaTimeModule.addSerializer(
@@ -112,6 +118,22 @@ public class SecurityConfig {
         );
         mapper.registerModule(javaTimeModule);
         return mapper.writeValueAsString(appError);
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("OPTIONS");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 
 }

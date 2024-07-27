@@ -1,5 +1,6 @@
 package com.web3.with.entity;
 
+import com.web3.with.security.model.role.RoleName;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public @Data class RoleEntity {
     private Integer id;
 
     @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private RoleName role;
 
 }

@@ -57,7 +57,7 @@ public interface UserMapper {
 
     @Named("rolesM")
     default List<? extends GrantedAuthority> mapAuthority(RoleEntity roleEntity) {
-        return List.of(new SimpleGrantedAuthority(roleEntity.getRole()));
+        return List.of(new SimpleGrantedAuthority(roleEntity.getRole().name()));
     }
 
 }
