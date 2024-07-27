@@ -16,7 +16,7 @@ CREATE TABLE employer
 CREATE TABLE role
 (
     id   INTEGER PRIMARY KEY,
-    role VARCHAR(50) CHECK (role IN ('ROLE_ADMIN', 'ROLE_EMPLOYER', 'ROLE_APPLICANT'))
+    role VARCHAR(50) CHECK (role IN ('ROLE_ADMIN', 'ROLE_EMPLOYER', 'ROLE_APPLICANT', 'ROLE_DEFAULT'))
 );
 
 CREATE TABLE app_user
@@ -34,7 +34,8 @@ CREATE TABLE app_user
 INSERT INTO role (id, role)
 VALUES (1, 'ROLE_ADMIN'),
        (2, 'ROLE_EMPLOYER'),
-       (3, 'ROLE_APPLICANT');
+       (3, 'ROLE_APPLICANT'),
+       (4, 'ROLE_DEFAULT');
 
 CREATE TABLE vacancy
 (
