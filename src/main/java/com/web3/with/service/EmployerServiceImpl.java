@@ -32,7 +32,7 @@ public class EmployerServiceImpl implements EmployerService {
     @Transactional(readOnly = true)
     @Override
     public EmployerWithVacancyRs findEmployerWithVacanciesById(Long id) {
-        return employerRepository.findById(id)
+        return employerRepository.findByIdWithVacancies(id)
                                  .map(employer -> {
                                      EmployerWithVacancyRs dto = employerMapper.entityToEmployerWithVacancies(employer);
                                      dto.setVacancies(employer.getVacancies().stream()

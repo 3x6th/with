@@ -11,7 +11,7 @@ public interface EmployerService {
      * @param id
      *         ID работодателя
      *
-     * @return {@link com.web3.with.entity.EmployerEntity} Если работодатель найден, вернет объект,
+     * @return {@link EmployerDTO} Если работодатель найден, вернет объект,
      * содержащий внутри себя ссылку на объект работодателя, иначе пустой объект
      */
     EmployerDTO findById(Long id);
@@ -22,8 +22,8 @@ public interface EmployerService {
      * @param id
      *         ID работодателя
      *
-     * @return {@link com.web3.with.entity.EmployerEntity} Если работодатель найден, вернет объект,
-     * содержащий внутри себя ссылку на объект работодателя, иначе пустой объект
+     * @return {@link EmployerWithVacancyRs} Если работодатель найден, вернет объект,
+     * содержащий внутри себя ссылку на объект работодателя с вакансиями, иначе пустой объект
      */
     EmployerWithVacancyRs findEmployerWithVacanciesById(Long id);
 
