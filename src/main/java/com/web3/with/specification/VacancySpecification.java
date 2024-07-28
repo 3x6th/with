@@ -7,8 +7,24 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
+/**
+ * Предоставляет методы для создания спецификаций для поиска вакансий по ключевым словам.
+ */
+
 public class VacancySpecification {
 
+    /**
+     * Создает {@link Specification} для поиска вакансий по ключевым слов.
+     * Поиск ведется по полям {@code title} и {@code description} из {@link VacancyEntity}.
+     * Если ключевые слова не предоставлены, спецификация вернет все вакансии.
+     * </p>
+     *
+     * @param keywords
+     *         Ключевые слова для поиска, разделенные пробелами.
+     *
+     * @return {@link Specification}  Spring Data JPA для фильтрации
+     * вакансий по ключевым словам.
+     */
     public static Specification<VacancyEntity> searchByKeyword(String keywords) {
         return (Root<VacancyEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) -> {
             if (keywords == null || keywords.trim().isEmpty()) {
