@@ -1,8 +1,8 @@
 package com.web3.with.service.api;
 
-import com.web3.with.security.model.AuthDto;
-import com.web3.with.security.model.RegistrationDto;
 import org.apache.coyote.BadRequestException;
+import org.openapitools.model.AuthDto;
+import org.openapitools.model.RegistrationDto;
 
 /**
  * Service for authentication.
@@ -16,7 +16,7 @@ public interface AuthLocalService {
      *         {@link RegistrationDto} Registration data
      *
      * @throws BadRequestException
-     *         If user already exists or role not found
+     *         If a user already exists or role not found
      */
     void register(RegistrationDto registrationDto) throws BadRequestException;
 

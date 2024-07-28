@@ -1,7 +1,7 @@
 package com.web3.with.repository;
 
 import com.web3.with.entity.RoleEntity;
-import com.web3.with.security.model.role.RoleName;
+import org.openapitools.model.RoleName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

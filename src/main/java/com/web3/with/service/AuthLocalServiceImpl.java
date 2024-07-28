@@ -2,8 +2,6 @@ package com.web3.with.service;
 
 import com.web3.with.mapper.UserMapper;
 import com.web3.with.repository.RoleRepository;
-import com.web3.with.security.model.AuthDto;
-import com.web3.with.security.model.RegistrationDto;
 import com.web3.with.security.model.auth.AuthProvider;
 import com.web3.with.service.api.AuthLocalService;
 import com.web3.with.service.api.UserService;
@@ -11,6 +9,8 @@ import com.web3.with.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
+import org.openapitools.model.AuthDto;
+import org.openapitools.model.RegistrationDto;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;

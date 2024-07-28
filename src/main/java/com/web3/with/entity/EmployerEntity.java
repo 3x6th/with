@@ -28,4 +28,13 @@ public class EmployerEntity {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "website")
+    private String website;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "location")
+    private String location;
+
 }

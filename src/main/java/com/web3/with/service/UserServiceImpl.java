@@ -7,10 +7,11 @@ import com.web3.with.mapper.UserMapper;
 import com.web3.with.repository.RoleRepository;
 import com.web3.with.repository.UserRepository;
 import com.web3.with.security.model.auth.AuthProvider;
-import com.web3.with.security.model.role.RoleName;
 import com.web3.with.security.oauth2.oauthuser.base.OAuth2UserInfo;
 import com.web3.with.service.api.UserService;
+import com.web3.with.util.EmailHelper;
 import lombok.RequiredArgsConstructor;
+import org.openapitools.model.RoleName;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -46,7 +47,7 @@ public class UserServiceImpl implements UserService {
         String login = oAuth2UserInfo.getLogin()
                 != null
                 ? oAuth2UserInfo.getLogin()
-                : parseLoginFromEmail(oAuth2UserInfo.getEmail());
+                : EmailHelper.parseEmail(oAuth2UserInfo.getEmail());
 
         UserEntity userEntity = UserEntity.builder()
                                           .authProvider(
@@ -78,9 +79,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Method for checking if user exists by email. Returns true if user exists, false otherwise.
+     * Method for checking if a user exists by email. Returns true if user exists, false otherwise.
      *
-     * @param identifier email.
+     * @param email email.
      * @return boolean true if user exists, false otherwise.
      */
     @Override
@@ -116,12 +117,4 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userMapper.entityToUserPrincipal(findByIdentifier(username));
     }
-
-    private String parseLoginFromEmail(String email) {
-        if (email == null || !email.contains("@")) {
-            throw new IllegalArgumentException("Invalid email format");
-        }
-        return email.substring(0, email.indexOf('@'));
-    }
-
 }

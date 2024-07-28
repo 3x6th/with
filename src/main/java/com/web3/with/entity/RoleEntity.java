@@ -1,8 +1,8 @@
 package com.web3.with.entity;
 
-import com.web3.with.security.model.role.RoleName;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.openapitools.model.RoleName;
 
 
 @Entity

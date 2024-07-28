@@ -1,11 +1,11 @@
 package com.web3.with.controller;
 
-import com.web3.with.security.model.AuthDto;
-import com.web3.with.security.model.RegistrationDto;
 import com.web3.with.security.securityResponse.AppSecurityResponse;
 import com.web3.with.service.api.AuthLocalService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
+import org.openapitools.model.AuthDto;
+import org.openapitools.model.RegistrationDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,14 +22,14 @@ public class AuthLocalController {
             @RequestBody RegistrationDto registrationDto
     ) throws BadRequestException {
         authService.register(registrationDto);
-        return new AppSecurityResponse(HttpStatus.OK.value(), "Registered Successfully");
+        return new AppSecurityResponse(HttpStatus.OK, "Registered Successfully");
     }
 
     @PostMapping("/auth")
     public AppSecurityResponse auth(
             @RequestBody AuthDto authDto
     ) {
-        return new AppSecurityResponse(HttpStatus.OK.value(), authService.authenticate(authDto));
+        return new AppSecurityResponse(HttpStatus.OK, authService.authenticate(authDto));
     }
 
 }

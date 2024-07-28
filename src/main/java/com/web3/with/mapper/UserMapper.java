@@ -2,7 +2,6 @@ package com.web3.with.mapper;
 
 import com.web3.with.entity.RoleEntity;
 import com.web3.with.entity.UserEntity;
-import com.web3.with.security.model.RegistrationDto;
 import com.web3.with.security.principal.UserPrincipal;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +13,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 import org.mapstruct.Named;
+import org.openapitools.model.RegistrationDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

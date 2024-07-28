@@ -18,25 +18,25 @@ public class HttpControllerAdvice {
     @ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public AppSecurityResponse handleForbiddenException(ForbiddenException e) {
-        return new AppSecurityResponse(HttpStatus.FORBIDDEN.value(), e.getMessage());
+        return new AppSecurityResponse(HttpStatus.FORBIDDEN, e.getMessage());
     }
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public AppSecurityResponse badRequestException(BadRequestException e) {
-        return new AppSecurityResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        return new AppSecurityResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public AppSecurityResponse handleNotFoundException(NotFoundException e) {
-        return new AppSecurityResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
+        return new AppSecurityResponse(HttpStatus.NOT_FOUND, e.getMessage());
     }
 
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public AppSecurityResponse handleNullPoint(NullPointerException e) {
-        return new AppSecurityResponse(HttpStatus.NO_CONTENT.value(), e.getMessage());
+        return new AppSecurityResponse(HttpStatus.NO_CONTENT, e.getMessage());
     }
 
 }

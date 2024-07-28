@@ -30,8 +30,10 @@ public class CustomOauth2ServiceImpl extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
 
     /**
-     * Method for processing OAuth2 user. If user exists, updates his data, otherwise creates new
-     * user. Returns UserPrincipal object.
+     * Method for processing OAuth2 user.
+     * If a user exists, updates their data, otherwise creates new
+     * user.
+     * Returns UserPrincipal object.
      *
      * @param oAuth2UserRequest
      *         request for loading user

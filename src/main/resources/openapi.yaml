@@ -6,6 +6,58 @@ info:
 servers:
 #  - url: /main
 paths:
+  /auth:
+    post:
+      summary: Аутентификация пользователя
+      description: Локальная аутентификация пользователя по email и password
+      operationId: auth
+      tags:
+        - Auth & Registration local
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthDto'
+      responses:
+        '200':
+          description: Аутентификация прошла успешно
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
+        '500':
+          description: Ошибка с сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WithAppExceptionDTO'
+  /register:
+    post:
+      summary: Локальная регистрация
+      description: Локальная регистрация пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationDto'
+      responses:
+        '200':
+          description: Registration success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
+        '400':
+          description: Invalid input
+        '500':
+          description: Ошибка с сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WithAppExceptionDTO'
+
   /vacancies:
     post:
       summary: Get a list of vacancies
@@ -91,6 +143,9 @@ paths:
         '404':
           description: Employer not found
 
+
+
+
 components:
   schemas:
     VacancyRq:
@@ -99,10 +154,9 @@ components:
         page:
           type: integer
           format: int32
-#        size:
-#          type: integer
-#          format: int64
-
+    #        size:
+    #          type: integer
+    #          format: int64
     VacanciesRs:
       type: object
       properties:
@@ -139,7 +193,7 @@ components:
           description: Array of tags
           items:
             type: string
-#            $ref: '#/components/schemas/TagDTO'
+    #            $ref: '#/components/schemas/TagDTO'
 
     VacancyPreviewDTO:
       type: object
@@ -158,13 +212,13 @@ components:
           description: Array of tags
           items:
             type: string
-#            $ref: '#/components/schemas/TagDTO'
+    #            $ref: '#/components/schemas/TagDTO'
 
-#    TagDTO:
-#      type: object
-#      properties:
-#        name:
-#          type: string
+    #    TagDTO:
+    #      type: object
+    #      properties:
+    #        name:
+    #          type: string
 
     WithAppExceptionDTO:
       type: object
@@ -200,3 +254,59 @@ components:
         email:
           type: string
           description: Contact email of the company
+
+    AuthDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: user@example.com
+        password:
+          type: string
+          example: password123
+
+    RegistrationDto:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The username of the user
+          example: "john_doe"
+        password:
+          type: string
+          description: The password of the user
+          example: "password123"
+        email:
+          type: string
+          description: The email of the user
+          example: "john.doe@example.com"
+        role:
+          $ref: '#/components/schemas/RoleName'
+    RoleName:
+      type: string
+      enum:
+        - ROLE_DEFAULT
+        - ROLE_ADMIN
+        - ROLE_EMPLOYER
+        - ROLE_APPLICANT
+    BaseSecurityRs:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The HTTP status of the response
+          example: "200 OK"
+        message:
+          type: string
+          description: The message of the response
+          example: "Operation successful"
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp of the response
+          example: "2024-07-28T12:34:56Z"
+
+    AppSecurityRs:
+      allOf:
+        - $ref: '#/components/schemas/BaseSecurityRs'
+      description: App-specific security response

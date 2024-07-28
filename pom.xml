@@ -203,13 +203,21 @@
 						</goals>
 						<configuration>
 							<skipValidateSpec>true</skipValidateSpec>
+							<additionalProperties>removeEnumValuePrefix=false</additionalProperties>
 							<inputSpec>src/main/resources/openapi.yaml</inputSpec>
 							<generatorName>spring</generatorName>
 							<typeMappings>DateTime=java.time.ZonedDateTime</typeMappings>
+							<templateDirectory>src/main/resources/custom-templates</templateDirectory>
 							<configOptions>
+								<delegatePattern>true</delegatePattern>
 								<openApiNullable>false</openApiNullable>
 								<interfaceOnly>true</interfaceOnly>
-								<additionalModelTypeAnnotations>@lombok.Builder @lombok.NoArgsConstructor @lombok.AllArgsConstructor @lombok.Data</additionalModelTypeAnnotations>
+								<additionalModelTypeAnnotations>
+									@lombok.Builder
+									@lombok.NoArgsConstructor
+									@lombok.AllArgsConstructor
+									@lombok.Data
+								</additionalModelTypeAnnotations>
 								<useTags>true</useTags>
 								<sourceFolder>src/gen/java/main</sourceFolder>
 							</configOptions>

@@ -78,10 +78,9 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     oauth:
-      client-id: ${spring.security.oauth2.client.registration.google.clientId}
-      client-secret: ${spring.security.oauth2.client.registration.google.clientSecret}
-      scopes: email,profile
-      use-basic-authentication-with-access-code-grant: true
+      client-id: ${spring.security.oauth2.client.registration.google.client-id}
+      client-secret: ${spring.security.oauth2.client.registration.google.client-secret}
+      scopes: email, profile
     oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html
 
 app:
@@ -92,6 +91,7 @@ app:
     allowedOrigins: http://localhost:3000,http://localhost:8080
   oauth2:
     authorizedRedirectUris:
+      - http://localhost:8080/oauth2/callback/
       - http://localhost:3000/oauth2/redirect
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
