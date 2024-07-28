@@ -4,13 +4,17 @@ import com.web3.with.entity.VacancyEntity;
 import com.web3.with.mapper.VacancyMapper;
 import com.web3.with.repository.VacancyRepository;
 import com.web3.with.service.api.VacancyService;
+import com.web3.with.specification.VacancySpecification;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.model.VacanciesRs;
 import org.openapitools.model.VacancyDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +43,14 @@ public class VacancyServiceImpl implements VacancyService {
         return vacancyRepository.findById(id)
                                 .map(vacancyMapper::entityToSimpleDto)
                                 .orElseThrow(() -> new RuntimeException("Vacancy not found"));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public VacanciesRs getVacanciesByKeyword(String keyword) {
+        Specification<VacancyEntity> specification = VacancySpecification.searchByKeyword(keyword);
+        List<VacancyEntity> vacancies = vacancyRepository.findAll(specification);
+        return vacancyMapper.pageToResponse(new PageImpl<>(vacancies), false);
     }
 
 }

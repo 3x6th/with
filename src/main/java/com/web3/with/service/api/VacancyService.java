@@ -27,4 +27,6 @@ public interface VacancyService {
      */
     VacancyDTO findById(Long id);
 
+    VacanciesRs getVacanciesByKeyword(String keyword);
+
 }
