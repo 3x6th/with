@@ -66,6 +66,47 @@ paths:
         '404':
           description: Вакансия не найдена
 
+  /vacancies/search:
+    post:
+      summary: Search for vacancies by keyword with pagination
+      operationId: getVacanciesByKeyword
+      tags:
+        - Vacancies
+      requestBody:
+        description: Request body containing pagination information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VacancyRq'
+      parameters:
+        - in: query
+          name: keyword
+          description: Optional keyword to search for in job vacancies
+          required: false
+          schema:
+            type: string
+            example: "data"
+      responses:
+        '200':
+          description: A list of job vacancies matching the search keyword with pagination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VacanciesRs'
+        '400':
+          description: Invalid input provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WithAppExceptionDTO'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WithAppExceptionDTO'
+
   /employer/{id}:
     get:
       summary: Get an employer by ID
