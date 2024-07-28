@@ -5,13 +5,11 @@ import com.web3.with.mapper.VacancyMapper;
 import com.web3.with.repository.VacancyRepository;
 import com.web3.with.service.api.VacancyService;
 import com.web3.with.specification.VacancySpecification;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.model.VacanciesRs;
 import org.openapitools.model.VacancyDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -47,10 +45,11 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Transactional(readOnly = true)
     @Override
-    public VacanciesRs getVacanciesByKeyword(String keyword) {
+    public VacanciesRs getVacanciesByKeyword(int pageNumber, String keyword) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Specification<VacancyEntity> specification = VacancySpecification.searchByKeyword(keyword);
-        List<VacancyEntity> vacancies = vacancyRepository.findAll(specification);
-        return vacancyMapper.pageToResponse(new PageImpl<>(vacancies), false);
+        Page<VacancyEntity> page = vacancyRepository.findAll(specification, pageable);
+        return vacancyMapper.pageToResponse(page, page.isLast());
     }
 
 }
