@@ -48,13 +48,8 @@ public class VacancyController implements VacanciesApi {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<VacanciesRs> searchVacancies(
-            VacancyRq vacancyRq,
-            @RequestParam(required = false) String keyword) {
-        return ResponseEntity.ok(vacancyService.getVacanciesByKeyword(
-                vacancyRq.getPage(),
-                keyword
-        ));
+    public ResponseEntity<VacanciesRs> searchVacancies(VacancyRq vacancyRq, @RequestParam(required = false) String keyword) {
+        return ResponseEntity.ok(vacancyService.getVacanciesByKeyword(vacancyRq.getPage(), keyword));
     }
 
 }
