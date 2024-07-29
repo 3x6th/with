@@ -3,8 +3,7 @@ package com.web3.with.security.oauth2.handler;
 import static com.web3.with.security.oauth2.repository.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 import com.web3.with.exception.http.BadRequestException;
-import com.web3.with.security.config.AppProperties;
-import com.web3.with.security.model.constant.OAuthConstant;
+import com.web3.with.config.AppProperties;
 import com.web3.with.security.oauth2.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.web3.with.security.principal.UserPrincipal;
 import com.web3.with.util.CookieUtil;

@@ -1,4 +1,4 @@
-package com.web3.with.security.config;
+package com.web3.with.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,10 +6,11 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.web3.with.security.filters.JwtFilter;
 import com.web3.with.security.oauth2.repository.HttpCookieOAuth2AuthorizationRequestRepository;
-import com.web3.with.security.securityResponse.AppSecurityResponse;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import lombok.RequiredArgsConstructor;
+import org.openapitools.model.AppSecurityRs;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -109,7 +110,11 @@ public class SecurityConfig {
     }
 
     private String createUnauthorizedJson() throws JsonProcessingException {
-        AppSecurityResponse appError = new AppSecurityResponse(HttpStatus.UNAUTHORIZED, "Unauthorized");
+        AppSecurityRs appError = new AppSecurityRs(
+                HttpStatus.UNAUTHORIZED.toString(),
+                "Unauthorized",
+                ZonedDateTime.now()
+        );
         var mapper = new ObjectMapper();
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         javaTimeModule.addSerializer(

@@ -1,6 +1,6 @@
 package com.web3.with.util;
 
-import com.web3.with.security.config.AppProperties;
+import com.web3.with.config.AppProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -1,4 +1,4 @@
-package com.web3.with.security.config;
+package com.web3.with.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;

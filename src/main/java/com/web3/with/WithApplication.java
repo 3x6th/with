@@ -1,6 +1,6 @@
 package com.web3.with;
 
-import com.web3.with.security.config.AppProperties;
+import com.web3.with.config.AppProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
