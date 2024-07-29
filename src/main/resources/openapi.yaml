@@ -6,12 +6,12 @@ info:
 servers:
 #  - url: /main
 paths:
-  /vacancies:
+  /vacancy/all:
     post:
       summary: Get a list of vacancies
       operationId: getVacancies
       tags:
-        - Vacancies
+        - Vacancy
       parameters:
         - in: header
           name: Content-Type
@@ -42,15 +42,15 @@ paths:
                 $ref: '#/components/schemas/WithAppExceptionDTO'
   /vacancy/{id}:
     get:
-      summary: Получение вакансии по ID
-      description: Возвращает информацию о вакансии по указанному ID.
+      summary: Getting a job by ID
+      description: Returns information about the vacancy by the ID.
       operationId: getVacancyById
       tags:
-        - Vacancies
+        - Vacancy
       parameters:
         - name: id
           in: path
-          description: ID вакансии для получения информации
+          description: ID of vacancy for getting information
           required: true
           schema:
             type: integer
@@ -58,20 +58,20 @@ paths:
             example: 123
       responses:
         '200':
-          description: Вакансия успешно найдена
+          description: The vacancy was successfully found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/VacancyDTO'
         '404':
-          description: Вакансия не найдена
+          description: The vacancy was not found
 
-  /vacancies/search:
+  /vacancy/search:
     post:
       summary: Search for vacancies by keyword with pagination
       operationId: getVacanciesByKeyword
       tags:
-        - Vacancies
+        - Vacancy
       requestBody:
         description: Request body containing pagination information
         required: true
@@ -140,6 +140,7 @@ components:
         page:
           type: integer
           format: int32
+          default: 0
 #        size:
 #          type: integer
 #          format: int64
