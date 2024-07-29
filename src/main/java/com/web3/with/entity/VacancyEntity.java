@@ -39,7 +39,7 @@ public class VacancyEntity {
     @Column(name = "salary")
     private String salary;
 
-    @Column(name = "workMode")
+    @Column(name = "work_mode")
     private String workMode;
 
     @Column(name = "location")

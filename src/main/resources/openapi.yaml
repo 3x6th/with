@@ -139,6 +139,7 @@ paths:
       operationId: getEmployerWithVacanciesById
       tags:
         - Employer
+        - Vacancy
       parameters:
         - name: id
           in: path
