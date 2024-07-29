@@ -1,8 +1,5 @@
 package com.web3.with.controller;
 
-import com.web3.with.exception.http.NotFoundException;
-import com.web3.with.mapper.UserMapper;
-import com.web3.with.security.model.context.CurrentUser;
 import com.web3.with.security.model.context.UserContext;
 import com.web3.with.security.principal.UserPrincipal;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +12,14 @@ public class UserController {
 
     private final UserContext userContext;
 
+    /**
+     * GET /user/me : Get information about the current user.
+     *
+     * @return {@link UserPrincipal} Information about the current user.
+     */
     @GetMapping("/user/me")
     public UserPrincipal getCurrentUser() {
         return userContext.getCurrentUser();
     }
+
 }

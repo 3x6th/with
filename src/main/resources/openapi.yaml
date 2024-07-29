@@ -12,7 +12,7 @@ paths:
       description: Локальная аутентификация пользователя по email и password
       operationId: auth
       tags:
-        - Auth & Registration local
+        - Auth And Registration Local
       requestBody:
         required: true
         content:
@@ -31,11 +31,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WithAppExceptionDTO'
+                $ref: '#/components/schemas/AppSecurityRs'
   /register:
     post:
       summary: Локальная регистрация
       description: Локальная регистрация пользователя
+      operationId: register
+      tags:
+        - Auth And Registration Local
       requestBody:
         required: true
         content:
@@ -56,14 +59,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WithAppExceptionDTO'
-
-  /vacancies:
+                $ref: '#/components/schemas/AppSecurityRs'
+  /vacancy/all:
     post:
       summary: Get a list of vacancies
       operationId: getVacancies
       tags:
-        - Vacancies
+        - Vacancy
       parameters:
         - in: header
           name: Content-Type
@@ -91,14 +93,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WithAppExceptionDTO'
+                $ref: '#/components/schemas/WithAppExceptionRs'
   /vacancy/{id}:
     get:
       summary: Получение вакансии по ID
       description: Возвращает информацию о вакансии по указанному ID.
       operationId: getVacancyById
       tags:
-        - Vacancies
+        - Vacancy
       parameters:
         - name: id
           in: path
@@ -142,9 +144,6 @@ paths:
                 $ref: '#/components/schemas/EmployerDTO'
         '404':
           description: Employer not found
-
-
-
 
 components:
   schemas:
@@ -220,18 +219,22 @@ components:
     #        name:
     #          type: string
 
-    WithAppExceptionDTO:
+    WithAppExceptionRs:
       type: object
       properties:
-        code:
-          type: integer
-          description: Error code
-          example: 1
+        status:
+          type: string
+          description: The HTTP status of the response
+          example: "200 OK"
         message:
           type: string
           description: Error message
           example: "Error while validating"
-
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp of the response
+          example: "2024-07-28T12:34:56Z"
     EmployerDTO:
       type: object
       properties:
@@ -254,17 +257,15 @@ components:
         email:
           type: string
           description: Contact email of the company
-
     AuthDto:
       type: object
       properties:
         email:
           type: string
-          example: user@example.com
+          example: "john.doe@example.com"
         password:
           type: string
-          example: password123
-
+          example: "password123"
     RegistrationDto:
       type: object
       properties:
@@ -286,7 +287,7 @@ components:
       type: string
       enum:
         - ROLE_DEFAULT
-        - ROLE_ADMIN
+#        - ROLE_ADMIN
         - ROLE_EMPLOYER
         - ROLE_APPLICANT
     BaseSecurityRs:
