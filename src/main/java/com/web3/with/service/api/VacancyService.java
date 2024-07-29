@@ -27,4 +27,15 @@ public interface VacancyService {
      */
     VacancyDTO findById(Long id);
 
+    /**
+     * Метод возвращает список вакансий, соответствующих заданным ключевым словам
+     *
+     * @param pageNumber
+     *         Номер страницы
+     *
+     * @return {@link VacanciesRs} Объект, содержащий постранично список вакансий
+     * и информацию является ли данная страница последней
+     */
+    VacanciesRs getVacanciesByKeyword(int pageNumber, String keyword);
+
 }
