@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class AuthAndLocalController implements AuthAndRegistrationLocalApi {
+public class AuthAndRegistrationLocalController implements AuthAndRegistrationLocalApi {
 
     private final AuthLocalService authService;
 
@@ -38,7 +38,7 @@ public class AuthAndLocalController implements AuthAndRegistrationLocalApi {
     }
 
     /**
-     * POST /registration : Handles the registration request.
+     * POST /register : Handles the registration request.
      *
      * @param registrationDto
      *         The data transfer object for registration (required).
