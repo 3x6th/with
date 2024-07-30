@@ -153,38 +153,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WithAppExceptionDTO'
+                $ref: '#/components/schemas/WithAppExceptionRs'
         '500':
           description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WithAppExceptionDTO'
-
-  /employer/{id}:
-    get:
-      summary: Get an employer by ID
-      description: Returns detailed information about an employer.
-      operationId: getEmployerById
-      tags:
-        - Employer
-      parameters:
-        - name: id
-          in: path
-          description: ID of the employer to fetch
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Employer data retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmployerDTO'
-        '404':
-          description: Employer not found
+                $ref: '#/components/schemas/WithAppExceptionRs'
 
   /vacancy/employer/{id}:
     get:
