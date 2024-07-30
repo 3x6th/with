@@ -96,15 +96,15 @@ paths:
                 $ref: '#/components/schemas/WithAppExceptionRs'
   /vacancy/{id}:
     get:
-      summary: Получение вакансии по ID
-      description: Возвращает информацию о вакансии по указанному ID.
+      summary: Getting a job by ID
+      description: Returns information about the vacancy by the ID.
       operationId: getVacancyById
       tags:
         - Vacancy
       parameters:
         - name: id
           in: path
-          description: ID вакансии для получения информации
+          description: ID of vacancy for getting information
           required: true
           schema:
             type: integer
@@ -112,13 +112,105 @@ paths:
             example: 123
       responses:
         '200':
-          description: Вакансия успешно найдена
+          description: The vacancy was successfully found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/VacancyDTO'
         '404':
-          description: Вакансия не найдена
+          description: The vacancy was not found
+
+  /vacancy/search:
+    post:
+      summary: Search for vacancies by keyword with pagination
+      operationId: getVacanciesByKeyword
+      tags:
+        - Vacancy
+      requestBody:
+        description: Request body containing pagination information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VacancyRq'
+      parameters:
+        - in: query
+          name: keyword
+          description: Optional keyword to search for in job vacancies
+          required: false
+          schema:
+            type: string
+            example: "data"
+      responses:
+        '200':
+          description: A list of job vacancies matching the search keyword with pagination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VacanciesRs'
+        '400':
+          description: Invalid input provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WithAppExceptionDTO'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WithAppExceptionDTO'
+
+  /employer/{id}:
+    get:
+      summary: Get an employer by ID
+      description: Returns detailed information about an employer.
+      operationId: getEmployerById
+      tags:
+        - Employer
+      parameters:
+        - name: id
+          in: path
+          description: ID of the employer to fetch
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Employer data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployerDTO'
+        '404':
+          description: Employer not found
+
+  /vacancy/employer/{id}:
+    get:
+      summary: Get employer and its vacancies by employer ID
+      description: Returns detailed information about an employer and its associated vacancies.
+      operationId: getEmployerWithVacanciesById
+      tags:
+        - Employer
+        - Vacancy
+      parameters:
+        - name: id
+          in: path
+          description: ID of the employer to fetch
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Employer and vacancies data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployerWithVacancyRs'
+        '404':
+          description: Employer not found
 
   /employer/{id}:
     get:
@@ -153,9 +245,11 @@ components:
         page:
           type: integer
           format: int32
-    #        size:
-    #          type: integer
-    #          format: int64
+          default: 0
+#        size:
+#          type: integer
+#          format: int64
+
     VacanciesRs:
       type: object
       properties:
@@ -192,7 +286,7 @@ components:
           description: Array of tags
           items:
             type: string
-    #            $ref: '#/components/schemas/TagDTO'
+#            $ref: '#/components/schemas/TagDTO'
 
     VacancyPreviewDTO:
       type: object
@@ -211,13 +305,13 @@ components:
           description: Array of tags
           items:
             type: string
-    #            $ref: '#/components/schemas/TagDTO'
+#            $ref: '#/components/schemas/TagDTO'
 
-    #    TagDTO:
-    #      type: object
-    #      properties:
-    #        name:
-    #          type: string
+#    TagDTO:
+#      type: object
+#      properties:
+#        name:
+#          type: string
 
     WithAppExceptionRs:
       type: object
@@ -257,6 +351,21 @@ components:
         email:
           type: string
           description: Contact email of the company
+    EmployerWithVacancyRs:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the employer
+        companyName:
+          type: string
+          description: Name of the company
+        vacancies:
+          type: array
+          description: List of vacancies offered by the employer
+          items:
+            $ref: '#/components/schemas/VacancyPreviewDTO'
     AuthDto:
       type: object
       properties:

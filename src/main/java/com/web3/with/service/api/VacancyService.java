@@ -1,6 +1,5 @@
 package com.web3.with.service.api;
 
-import java.util.Optional;
 import org.openapitools.model.VacanciesRs;
 import org.openapitools.model.VacancyDTO;
 
@@ -27,5 +26,16 @@ public interface VacancyService {
      * содержащий внутри себя ссылку на объект вакансии, иначе пустой объект
      */
     VacancyDTO findById(Long id);
+
+    /**
+     * Метод возвращает список вакансий, соответствующих заданным ключевым словам
+     *
+     * @param pageNumber
+     *         Номер страницы
+     *
+     * @return {@link VacanciesRs} Объект, содержащий постранично список вакансий
+     * и информацию является ли данная страница последней
+     */
+    VacanciesRs getVacanciesByKeyword(int pageNumber, String keyword);
 
 }

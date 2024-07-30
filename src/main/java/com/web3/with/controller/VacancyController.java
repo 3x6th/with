@@ -1,5 +1,6 @@
 package com.web3.with.controller;
 
+import com.web3.with.entity.VacancyEntity;
 import com.web3.with.service.api.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.api.VacancyApi;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("api/v1")
 @RequiredArgsConstructor
 public class VacancyController implements VacancyApi {
 
@@ -42,6 +44,25 @@ public class VacancyController implements VacancyApi {
     @Override
     public ResponseEntity<VacancyDTO> getVacancyById(Long id) {
         return ResponseEntity.ok(vacancyService.findById(id));
+    }
+
+    /**
+     * POST /vacancies/search : Получение вакансий по ключевым словам <p>
+     * Поиск ведется по полям {@linkplain VacancyEntity#title} и {@link VacancyEntity#description}
+     *
+     * @param vacancyRq
+     *         Объект для передачи номера страницы (required)
+     * @param keyword
+     *         Ключевые слова для поиска вакансий  (optional)
+     *
+     * @return {@link VacanciesRs} Список вакансий
+     */
+    @Override
+    public ResponseEntity<VacanciesRs> getVacanciesByKeyword(VacancyRq vacancyRq, String keyword) {
+        return ResponseEntity.ok(vacancyService.getVacanciesByKeyword(
+                vacancyRq.getPage(),
+                keyword
+        ));
     }
 
 }
