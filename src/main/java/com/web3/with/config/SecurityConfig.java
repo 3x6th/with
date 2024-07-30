@@ -67,7 +67,7 @@ public class SecurityConfig {
                             "/api-docs/**"
                     ).permitAll()
                     .requestMatchers("/auth", "/oauth2/**", "/register").permitAll()
-                    .requestMatchers("/**/private/**").authenticated()
+                    .requestMatchers("**/private/**").authenticated()
                     .anyRequest().authenticated()
             )
             .sessionManagement(policy -> policy.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
