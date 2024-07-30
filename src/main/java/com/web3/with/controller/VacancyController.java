@@ -59,7 +59,10 @@ public class VacancyController implements VacancyApi {
      */
     @Override
     public ResponseEntity<VacanciesRs> getVacanciesByKeyword(VacancyRq vacancyRq, String keyword) {
-        return ResponseEntity.ok(vacancyService.getVacanciesByKeyword(vacancyRq.getPage(), keyword));
+        return ResponseEntity.ok(vacancyService.getVacanciesByKeyword(
+                vacancyRq.getPage(),
+                keyword
+        ));
     }
 
 }

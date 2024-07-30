@@ -3,9 +3,62 @@ info:
   title: API of service WEB3.WITH
   description: Operations of service
   version: 1.0.0
-servers:
-#  - url: /main
+
 paths:
+  /auth:
+    post:
+      summary: Аутентификация пользователя
+      description: Локальная аутентификация пользователя по email и password
+      operationId: auth
+      tags:
+        - Auth And Registration Local
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthDto'
+      responses:
+        '200':
+          description: Аутентификация прошла успешно
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
+        '500':
+          description: Ошибка с сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
+  /register:
+    post:
+      summary: Локальная регистрация
+      description: Локальная регистрация пользователя
+      operationId: register
+      tags:
+        - Auth And Registration Local
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationDto'
+      responses:
+        '200':
+          description: Registration success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
+        '400':
+          description: Invalid input
+        '500':
+          description: Ошибка с сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
   /vacancy/all:
     post:
       summary: Get a list of vacancies
@@ -39,7 +92,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WithAppExceptionDTO'
+                $ref: '#/components/schemas/WithAppExceptionRs'
   /vacancy/{id}:
     get:
       summary: Getting a job by ID
@@ -99,38 +152,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WithAppExceptionDTO'
+                $ref: '#/components/schemas/WithAppExceptionRs'
         '500':
           description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WithAppExceptionDTO'
-
-  /employer/{id}:
-    get:
-      summary: Get an employer by ID
-      description: Returns detailed information about an employer.
-      operationId: getEmployerById
-      tags:
-        - Employer
-      parameters:
-        - name: id
-          in: path
-          description: ID of the employer to fetch
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Employer data retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmployerDTO'
-        '404':
-          description: Employer not found
+                $ref: '#/components/schemas/WithAppExceptionRs'
 
   /vacancy/employer/{id}:
     get:
@@ -155,6 +183,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployerWithVacancyRs'
+        '404':
+          description: Employer not found
+
+  /employer/{id}:
+    get:
+      summary: Get an employer by ID
+      description: Returns detailed information about an employer.
+      operationId: getEmployerById
+      tags:
+        - Employer
+      parameters:
+        - name: id
+          in: path
+          description: ID of the employer to fetch
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Employer data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployerDTO'
         '404':
           description: Employer not found
 
@@ -234,18 +287,22 @@ components:
 #        name:
 #          type: string
 
-    WithAppExceptionDTO:
+    WithAppExceptionRs:
       type: object
       properties:
-        code:
-          type: integer
-          description: Error code
-          example: 1
+        status:
+          type: string
+          description: The HTTP status of the response
+          example: "200 OK"
         message:
           type: string
           description: Error message
           example: "Error while validating"
-
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp of the response
+          example: "2024-07-28T12:34:56Z"
     EmployerDTO:
       type: object
       properties:
@@ -268,7 +325,6 @@ components:
         email:
           type: string
           description: Contact email of the company
-
     EmployerWithVacancyRs:
       type: object
       properties:
@@ -284,3 +340,57 @@ components:
           description: List of vacancies offered by the employer
           items:
             $ref: '#/components/schemas/VacancyPreviewDTO'
+    AuthDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "john.doe@example.com"
+        password:
+          type: string
+          example: "password123"
+    RegistrationDto:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The username of the user
+          example: "john_doe"
+        password:
+          type: string
+          description: The password of the user
+          example: "password123"
+        email:
+          type: string
+          description: The email of the user
+          example: "john.doe@example.com"
+        role:
+          $ref: '#/components/schemas/RoleName'
+    RoleName:
+      type: string
+      enum:
+        - ROLE_DEFAULT
+#        - ROLE_ADMIN
+        - ROLE_EMPLOYER
+        - ROLE_APPLICANT
+    BaseSecurityRs:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The HTTP status of the response
+          example: "200 OK"
+        message:
+          type: string
+          description: The message of the response
+          example: "Operation successful"
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp of the response
+          example: "2024-07-28T12:34:56Z"
+
+    AppSecurityRs:
+      allOf:
+        - $ref: '#/components/schemas/BaseSecurityRs'
+      description: App-specific security response

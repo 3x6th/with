@@ -13,6 +13,9 @@ import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Entity for employer.
+ */
 @Data
 @Entity
 @Table(name = "employer")
@@ -40,4 +43,5 @@ public class EmployerEntity {
 
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VacancyEntity> vacancies;
+
 }

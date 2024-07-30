@@ -1,5 +1,6 @@
 package com.web3.with.service;
 
+import com.web3.with.exception.http.NotFoundException;
 import com.web3.with.mapper.EmployerMapper;
 import com.web3.with.mapper.VacancyMapper;
 import com.web3.with.repository.EmployerRepository;
@@ -26,7 +27,7 @@ public class EmployerServiceImpl implements EmployerService {
     public EmployerDTO findById(Long id) {
         return employerRepository.findById(id)
                                  .map(employerMapper::entityToSimpleDto)
-                                 .orElseThrow(() -> new RuntimeException("employer not found"));
+                                 .orElseThrow(() -> new NotFoundException("employer not found"));
     }
 
     @Transactional(readOnly = true)
@@ -34,13 +35,14 @@ public class EmployerServiceImpl implements EmployerService {
     public EmployerWithVacancyRs findEmployerWithVacanciesById(Long id) {
         return employerRepository.findByIdWithVacancies(id)
                                  .map(employer -> {
-                                     EmployerWithVacancyRs dto = employerMapper.entityToEmployerWithVacancies(employer);
+                                     EmployerWithVacancyRs dto = employerMapper.entityToEmployerWithVacancies(
+                                             employer);
                                      dto.setVacancies(employer.getVacancies().stream()
                                                               .map(vacancyMapper::entityToPreviewDto)
                                                               .collect(Collectors.toList()));
                                      return dto;
                                  })
-                                 .orElseThrow(() -> new RuntimeException("employer not found"));
+                                 .orElseThrow(() -> new NotFoundException("employer not found"));
     }
 
 }

@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository for employer operations.
+ */
 @Repository
 public interface EmployerRepository extends JpaRepository<EmployerEntity, Long> {
 

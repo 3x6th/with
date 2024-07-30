@@ -27,4 +27,5 @@ public interface EmployerMapper {
             @Mapping(source = "vacancies", target = "vacancies")
     })
     EmployerWithVacancyRs entityToEmployerWithVacancies(EmployerEntity entity);
+
 }

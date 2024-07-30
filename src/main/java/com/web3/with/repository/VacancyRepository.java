@@ -8,12 +8,18 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository for vacancy operations.
+ */
 @Repository
 public interface VacancyRepository extends JpaRepository<VacancyEntity, Long>, JpaSpecificationExecutor<VacancyEntity> {
 
     Page<VacancyEntity> findAll(Pageable pageable);
 
-    @Query("SELECT v FROM VacancyEntity v LEFT JOIN FETCH v.employer e LEFT JOIN FETCH v.tagList t")
+    @Query("SELECT v " +
+            "FROM VacancyEntity v " +
+            "LEFT JOIN FETCH v.employer e " +
+            "LEFT JOIN FETCH v.tagList t")
     Page<VacancyEntity> findAllWithCompanyNameAndTags(Pageable pageable);
 
 }
