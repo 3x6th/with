@@ -21,7 +21,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -42,7 +41,6 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailsService;
     private final DefaultOAuth2UserService oAuth2UserService;
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
     private final SimpleUrlAuthenticationSuccessHandler oAuth2AuthorizationSuccessHandler;
@@ -55,6 +53,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(request -> request
                     .requestMatchers(
                             "/",
+                            "/api/v1/**",
                             "/error",
                             "/favicon.ico",
                             "/*/**.png",
@@ -68,6 +67,7 @@ public class SecurityConfig {
                             "/api-docs/**"
                     ).permitAll()
                     .requestMatchers("/auth", "/oauth2/**", "/register").permitAll()
+                    .requestMatchers("/**/private/**").authenticated()
                     .anyRequest().authenticated()
             )
             .sessionManagement(policy -> policy.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -75,16 +75,14 @@ public class SecurityConfig {
                     .authenticationEntryPoint(unauthorizedEntryPoint()))
             .formLogin(AbstractHttpConfigurer::disable)
             .httpBasic(AbstractHttpConfigurer::disable)
-            .oauth2Login(oAuth2LoginConfigurer -> {
-                oAuth2LoginConfigurer
-                        .authorizationEndpoint(endpoint -> endpoint.baseUri("/oauth2/authorize")
-                                                                   .authorizationRequestRepository(
-                                                                           httpCookieOAuth2AuthorizationRequestRepository))
-                        .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/**"))
-                        .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
-                        .successHandler(oAuth2AuthorizationSuccessHandler)
-                        .failureHandler(oAuth2AuthenticationFailureHandler);
-            })
+            .oauth2Login(oAuth2LoginConfigurer -> oAuth2LoginConfigurer
+                    .authorizationEndpoint(endpoint -> endpoint.baseUri("/oauth2/authorize")
+                                                               .authorizationRequestRepository(
+                                                                       httpCookieOAuth2AuthorizationRequestRepository))
+                    .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/**"))
+                    .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
+                    .successHandler(oAuth2AuthorizationSuccessHandler)
+                    .failureHandler(oAuth2AuthenticationFailureHandler))
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
