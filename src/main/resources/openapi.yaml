@@ -93,6 +93,198 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WithAppExceptionRs'
+  /reply/respond/{id} :
+    post:
+      summary: Оставить отклик на вакансию
+      description: Оставить отклик на вакансию
+      operationId: respondVacancyById
+      tags:
+        - Applicant
+      parameters:
+        - in: header
+          name: Content-Type
+          required: false
+          schema:
+            type: string
+            enum:
+              - application/json
+          default: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VacancyID'
+      responses:
+        '200':
+          description: Отклик оставлен
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "200 OK"
+              }
+            }
+          }
+        '404':
+          description: Вакансия не найдена
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "404 Not Found"
+              }
+            }
+          }
+        '500':
+          description: Ошибка с сервера
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "500 Internal server error"
+              }
+            }
+          }
+
+
+  /reply/decide :
+    post:
+      summary: Ответить на отклик соискателя
+      description: Ответить на отклик соискателя
+      operationId: decideVacancyByApplicationId
+      tags:
+        - Employer
+      parameters:
+        - in: header
+          name: Content-Type
+          required: false
+          schema:
+            type: string
+            enum:
+              - application/json
+          default: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecideToApplicantDTO'
+      responses:
+        '200':
+          description: Ответ передан
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "200 OK"
+              }
+            }
+          }
+        '404':
+          description: Соискатель или вакансия не найдены/недоступны
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "404 Not Found"
+              }
+            }
+          }
+        '500':
+          description: Ошибка с сервера
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "500 Internal server error"
+              }
+            }
+          }
+
+  /employer/assign/{id}:
+    post:
+      summary: Owner вакансии назначает HR
+      description: Owner вакансии назначает HR
+      operationId: AssignHRmanager
+      tags:
+        - Employer
+      parameters:
+        - in: header
+          name: Content-Type
+          required: false
+          schema:
+            type: string
+            enum:
+              - application/json
+          default: application/json
+      responses:
+        '200':
+          description: HR назначен
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "200 OK"
+              }
+            }
+          }
+        '404':
+          description: Пользователь не найден
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "404 Not Found"
+              }
+            }
+          }
+        '500':
+          description: Ошибка с сервера
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "500 Internal server error"
+              }
+            }
+          }
+  /employer/revoke/{id}:
+    post:
+      summary: Owner вакансии отстраняет HR
+      description: Owner вакансии отстраняет HR
+      operationId: RevokeHRmanager
+      tags:
+        - Employer
+      parameters:
+        - in: header
+          name: Content-Type
+          required: false
+          schema:
+            type: string
+            enum:
+              - application/json
+          default: application/json
+      responses:
+        '200':
+          description: HR отстранен
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "200 OK"
+              }
+            }
+          }
+        '404':
+          description: Пользователь не найден
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "404 Not Found"
+              }
+            }
+          }
+        '500':
+          description: Ошибка с сервера
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "500 Internal server error"
+              }
+            }
+          }
+
   /vacancy/{id}:
     get:
       summary: Getting a job by ID
@@ -213,6 +405,14 @@ paths:
 
 components:
   schemas:
+    VacancyID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          default: 1
+
     VacancyRq:
       type: object
       properties:
@@ -389,6 +589,30 @@ components:
           format: date-time
           description: The timestamp of the response
           example: "2024-07-28T12:34:56Z"
+    ReplyRs:
+      type: object
+      properties:
+          status:
+            type: string
+            description: The HTTP status of the response
+            example: "200 OK"
+    DecideToApplicantDTO:
+      type: object
+      properties:
+        FromVacansiesId:
+          type: integer
+          format: int64
+          description: Id вакансии
+          example: "1"
+        ToApplicantId:
+          type: integer
+          format: int64
+          description: Id соискателя
+          example: "2"
+        Decide:
+          type: string
+          description: Ответ работодателя
+          example: "INVITE"
 
     AppSecurityRs:
       allOf:
