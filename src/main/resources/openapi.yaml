@@ -93,22 +93,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WithAppExceptionRs'
-  /reply/respond/{id} :
+
+  /reply/{id}/apply:
     post:
       summary: Оставить отклик на вакансию
       description: Оставить отклик на вакансию
-      operationId: respondVacancyById
+      operationId: applyByVacancyId
       tags:
-        - Applicant
+        - Vacancy
       parameters:
-        - in: header
-          name: Content-Type
-          required: false
+        - name: Authorization
+          in: header
+          required: true
           schema:
             type: string
-            enum:
-              - application/json
-          default: application/json
+          description: "Bearer token для авторизации Пример: 'Bearer <ваш JWT токен>'"
       requestBody:
         required: true
         content:
@@ -145,22 +144,20 @@ paths:
           }
 
 
-  /reply/decide :
+  /vacancy/{id}/decide :
     post:
-      summary: Ответить на отклик соискателя
-      description: Ответить на отклик соискателя
-      operationId: decideVacancyByApplicationId
+      summary: Ответить на отклик соискателя по id вакансии
+      description: Ответить на отклик соискателя по id вакансии
+      operationId: decideByVacancyId
       tags:
-        - Employer
+        - Vacancy
       parameters:
-        - in: header
-          name: Content-Type
-          required: false
+        - name: Authorization
+          in: header
+          required: true
           schema:
             type: string
-            enum:
-              - application/json
-          default: application/json
+          description: "Bearer token для авторизации Пример: 'Bearer <ваш JWT токен>'"
       requestBody:
         required: true
         content:
@@ -204,14 +201,12 @@ paths:
       tags:
         - Employer
       parameters:
-        - in: header
-          name: Content-Type
-          required: false
+        - name: Authorization
+          in: header
+          required: true
           schema:
             type: string
-            enum:
-              - application/json
-          default: application/json
+          description: "Bearer token для авторизации Пример: 'Bearer <ваш JWT токен>'"
       responses:
         '200':
           description: HR назначен
@@ -240,6 +235,7 @@ paths:
               }
             }
           }
+
   /employer/revoke/{id}:
     post:
       summary: Owner вакансии отстраняет HR
@@ -248,14 +244,12 @@ paths:
       tags:
         - Employer
       parameters:
-        - in: header
-          name: Content-Type
-          required: false
+        - name: Authorization
+          in: header
+          required: true
           schema:
             type: string
-            enum:
-              - application/json
-          default: application/json
+          description: "Bearer token для авторизации Пример: 'Bearer <ваш JWT токен>'"
       responses:
         '200':
           description: HR отстранен
@@ -404,6 +398,13 @@ paths:
           description: Employer not found
 
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  security:
+    - BearerAuth: [Bearer ]
   schemas:
     VacancyID:
       type: object
@@ -503,6 +504,7 @@ components:
           format: date-time
           description: The timestamp of the response
           example: "2024-07-28T12:34:56Z"
+
     EmployerDTO:
       type: object
       properties:
@@ -599,12 +601,7 @@ components:
     DecideToApplicantDTO:
       type: object
       properties:
-        FromVacansiesId:
-          type: integer
-          format: int64
-          description: Id вакансии
-          example: "1"
-        ToApplicantId:
+        ApplicantId:
           type: integer
           format: int64
           description: Id соискателя
