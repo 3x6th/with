@@ -4,9 +4,12 @@ import com.web3.with.entity.EmployerEntity;
 import com.web3.with.service.api.EmployerService;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.api.EmployerApi;
+import org.openapitools.model.DecideToApplicantDTO;
 import org.openapitools.model.EmployerDTO;
 import org.openapitools.model.EmployerWithVacancyRs;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,4 +46,15 @@ public class EmployerController implements EmployerApi {
         return ResponseEntity.ok(employerService.findEmployerWithVacanciesById(id));
     }
 
+    @PostAuthorize("hasRole('ROLE_EMPLOYER')")
+    @Override
+    public ResponseEntity<Void> revokeHRmanager(String contentType) throws Exception {
+        return new ResponseEntity<>(HttpStatus.valueOf(200)); //TODO
+    }
+
+    @PostAuthorize("hasRole('ROLE_EMPLOYER')")
+    @Override
+    public ResponseEntity<Void> assignHRmanager(String contentType) throws Exception {
+        return new ResponseEntity<>(HttpStatus.valueOf(200)); //TODO
+    }
 }
