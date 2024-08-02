@@ -7,5 +7,6 @@
 
   <changeSet id="Add-Tables" author="Stepan299">
     <sqlFile path="sql/add_some_table.sql" relativeToChangelogFile="true"/>
+    <sqlFile path="sql/fill_table.sql" relativeToChangelogFile="true"/>
   </changeSet>
 </databaseChangeLog>
