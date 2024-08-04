@@ -18,4 +18,5 @@ public interface UserService extends UserDetailsService {
 
     UserEntity save(UserEntity user);
 
+    Long getUserIdFromCurrentSession();
 }

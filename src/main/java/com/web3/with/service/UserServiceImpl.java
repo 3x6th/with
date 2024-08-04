@@ -12,6 +12,7 @@ import com.web3.with.service.api.UserService;
 import com.web3.with.util.EmailHelper;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.model.RoleName;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -103,6 +104,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public Long getUserIdFromCurrentSession() {
+        //maybe bad solve
+        var currentUserIdentifier = (String) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return findByIdentifier(currentUserIdentifier).getId();
+    }
+
     /**
      * Method for loading user by username. Returns {@link UserDetails}.
      *
@@ -117,4 +127,5 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userMapper.entityToUserPrincipal(findByIdentifier(username));
     }
+
 }
