@@ -150,14 +150,15 @@ paths:
       description: Ответить на отклик соискателя по id вакансии
       operationId: decideByVacancyId
       tags:
-        - Vacancy
+        - Reply
       parameters:
-        - name: Authorization
-          in: header
+        - name: id
+          in: path
+          description: ID of the vacancy
           required: true
           schema:
-            type: string
-          description: "Bearer token для авторизации Пример: 'Bearer <ваш JWT токен>'"
+            type: integer
+            format: int64
       requestBody:
         required: true
         content:
@@ -167,19 +168,18 @@ paths:
       responses:
         '200':
           description: Ответ передан
-          "content": {
-            "application/json": {
-              "example": {
-                "status": "200 OK"
-              }
-            }
-          }
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppRs'
         '404':
           description: Соискатель или вакансия не найдены/недоступны
           "content": {
             "application/json": {
               "example": {
-                "status": "404 Not Found"
+                "status": "404 Not Found",
+                "message": "No rights or no reply found",
+                "timestamp": "2024-07-28T12:34:56Z"
               }
             }
           }
@@ -398,13 +398,6 @@ paths:
           description: Employer not found
 
 components:
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-  security:
-    - BearerAuth: [Bearer ]
   schemas:
     VacancyID:
       type: object
@@ -591,6 +584,22 @@ components:
           format: date-time
           description: The timestamp of the response
           example: "2024-07-28T12:34:56Z"
+    AppRs:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The HTTP status of the response
+          example: "200 OK"
+        message:
+          type: string
+          description: The message of the response
+          example: "Operation successful"
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp of the response
+          example: "2024-07-28T12:34:56Z"
     ReplyRs:
       type: object
       properties:
@@ -604,7 +613,7 @@ components:
         ApplicantId:
           type: integer
           format: int64
-          description: Id соискателя
+          description: Id вакансии
           example: "2"
         Decide:
           type: string
