@@ -13,22 +13,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(title = "API Documentation", version = "v1"),
-        security = @SecurityRequirement(name = "oauth2")
+        security = @SecurityRequirement(name = "bearerAuth")
 )
 @SecurityScheme(
-        name = "oauth2",
-        type = SecuritySchemeType.OAUTH2,
-        flows = @OAuthFlows(
-                authorizationCode = @OAuthFlow(
-                        authorizationUrl = "http://localhost:8080/oauth2/authorization/google",
-                        tokenUrl = "https://www.googleapis.com/oauth2/v4/token",
-                        scopes = {
-                                @OAuthScope(name = "openid", description = "OpenID Connect scope"),
-                                @OAuthScope(name = "profile", description = "Profile scope"),
-                                @OAuthScope(name = "email", description = "Email scope")
-                        }
-                )
-        )
+        name = "bearerAuth",
+        type = SecuritySchemeType.HTTP,
+        scheme = "bearer",
+        bearerFormat = "JWT"
 )
 public class OpenApiSecurityConfig {
 }
