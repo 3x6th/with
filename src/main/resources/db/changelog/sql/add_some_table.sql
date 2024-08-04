@@ -21,9 +21,9 @@ INSERT INTO permission (permission) VALUES
 
 CREATE TABLE reply (
     id BIGSERIAL PRIMARY KEY,
-    applicant_id INTEGER NOT NULL,
-    vacancy_id INTEGER NOT NULL,
-    status_id INTEGER NOT NULL,
+    applicant_id BIGINT NOT NULL,
+    vacancy_id BIGINT NOT NULL,
+    status_id BIGINT NOT NULL,
     FOREIGN KEY (applicant_id) REFERENCES app_user (id),
     FOREIGN KEY (vacancy_id) REFERENCES vacancy (id),
     FOREIGN KEY (status_id) REFERENCES status (id)
@@ -31,9 +31,9 @@ CREATE TABLE reply (
 
 CREATE TABLE employer_manage (
     id BIGSERIAL PRIMARY KEY,
-    app_user_id INTEGER NOT NULL,
-    employer_id INTEGER NOT NULL,
-    permission_id INTEGER NOT NULL,
+    app_user_id BIGINT NOT NULL,
+    employer_id BIGINT NOT NULL,
+    permission_id BIGINT NOT NULL,
     FOREIGN KEY (app_user_id) REFERENCES app_user (id),
     FOREIGN KEY (employer_id) REFERENCES employer (id),
     FOREIGN KEY (permission_id) REFERENCES permission (id)
