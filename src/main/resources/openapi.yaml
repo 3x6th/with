@@ -100,20 +100,15 @@ paths:
       description: Оставить отклик на вакансию
       operationId: applyByVacancyId
       tags:
-        - Vacancy
+        - Reply
       parameters:
-        - name: Authorization
-          in: header
+        - name: id
+          in: path
+          description: ID of the vacancy
           required: true
           schema:
-            type: string
-          description: "Bearer token для авторизации Пример: 'Bearer <ваш JWT токен>'"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/VacancyID'
+            type: integer
+            format: int64
       responses:
         '200':
           description: Отклик оставлен
@@ -201,12 +196,14 @@ paths:
       tags:
         - Employer
       parameters:
-        - name: Authorization
-          in: header
-          required: true
+        - in: header
+          name: Content-Type
+          required: false
           schema:
             type: string
-          description: "Bearer token для авторизации Пример: 'Bearer <ваш JWT токен>'"
+            enum:
+              - application/json
+          default: application/json
       responses:
         '200':
           description: HR назначен
@@ -244,12 +241,14 @@ paths:
       tags:
         - Employer
       parameters:
-        - name: Authorization
-          in: header
-          required: true
+        - in: header
+          name: Content-Type
+          required: false
           schema:
             type: string
-          description: "Bearer token для авторизации Пример: 'Bearer <ваш JWT токен>'"
+            enum:
+              - application/json
+          default: application/json
       responses:
         '200':
           description: HR отстранен
