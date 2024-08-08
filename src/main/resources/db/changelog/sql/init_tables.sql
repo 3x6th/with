@@ -2,8 +2,7 @@ CREATE TABLE applicant
 (
     id          BIGSERIAL PRIMARY KEY,
     first_name  VARCHAR(50),
-    second_name VARCHAR(50),
-    email       VARCHAR(50)
+    second_name VARCHAR(50)
 );
 
 CREATE TABLE employer
@@ -34,6 +33,12 @@ CREATE TABLE app_user
     role_id INTEGER REFERENCES role (id)
 
 );
+
+ALTER TABLE applicant
+ADD COLUMN user_id BIGSERIAL REFERENCES app_user(id);
+
+ALTER TABLE employer
+ADD COLUMN user_id BIGSERIAL REFERENCES app_user(id);
 
 INSERT INTO role (id, role)
 VALUES (1, 'ROLE_ADMIN'),
@@ -67,7 +72,7 @@ CREATE TABLE vacancy_tag
 );
 
 
--- Insert employers
+/*-- Insert employers
 INSERT INTO employer (company_name, website, description, location, email)
 VALUES
     ('Tech Innovations', 'http://techinnovations.com', 'Leading tech company specializing in innovative solutions.', 'San Francisco, CA', 'info@techinnovations.com'),
@@ -75,9 +80,9 @@ VALUES
     ('Health Plus', 'http://healthplus.com', 'Focused on delivering quality healthcare solutions.', 'New York, NY', 'support@healthplus.com'),
     ('Gadget Galaxy', 'http://gadgetgalaxy.com', 'Your ultimate destination for gadgets and tech reviews.', 'Los Angeles, CA', 'hello@gadgetgalaxy.com'),
     ('Finance First', 'http://financefirst.com', 'Pioneering new ways to manage your personal finance.', 'Chicago, IL', 'service@financefirst.com');
+*/
 
-
--- Insert tags
+/*-- Insert tags
 INSERT INTO tag (name)
 VALUES ('Java');
 INSERT INTO tag (name)
@@ -129,4 +134,4 @@ VALUES (6, 1); -- Data Scientist - Java
 INSERT INTO vacancy_tag (vacancy_id, tag_id)
 VALUES (6, 2); -- Data Scientist - Spring Boot
 INSERT INTO vacancy_tag (vacancy_id, tag_id)
-VALUES (6, 3); -- Data Scientist - SQL
+VALUES (6, 3); -- Data Scientist - SQL*/
