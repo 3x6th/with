@@ -11,8 +11,10 @@ import org.springframework.stereotype.Repository;
  * Repository for employer operations.
  */
 @Repository
-public interface EmployerRepository extends JpaRepository<EmployerEntity, Long> {
+public interface  EmployerRepository extends JpaRepository<EmployerEntity, Long> {
 
     @Query("SELECT e FROM EmployerEntity e LEFT JOIN FETCH e.vacancies WHERE e.id = :id")
     Optional<EmployerEntity> findByIdWithVacancies(Long id);
+
+    boolean existsByEmail(String email);
 }

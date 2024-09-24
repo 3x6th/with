@@ -1,14 +1,7 @@
 package com.web3.with.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,4 +37,12 @@ public class EmployerEntity {
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VacancyEntity> vacancies;
 
+    @ManyToOne
+    @JoinTable(name = "user_employer", joinColumns = {@JoinColumn(name = "employer_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
+    public void setVacancies(VacancyEntity vacancy) {
+        this.vacancies.add(vacancy);
+    }
 }

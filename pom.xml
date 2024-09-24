@@ -130,7 +130,7 @@
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <version>7.0.1.Final</version>
+      <version>7.0.5.Final</version>
     </dependency>
     <dependency>
       <groupId>javax.annotation</groupId>
@@ -177,7 +177,7 @@
             <path>
               <groupId>org.projectlombok</groupId>
               <artifactId>lombok</artifactId>
-              <version>1.18.20</version>
+              <version>1.18.32</version>
             </path>
             <path>
               <groupId>org.mapstruct</groupId>

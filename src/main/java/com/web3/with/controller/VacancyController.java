@@ -1,15 +1,17 @@
 package com.web3.with.controller;
 
 import com.web3.with.entity.VacancyEntity;
+import com.web3.with.repository.VacancyRepository;
 import com.web3.with.service.api.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.api.VacancyApi;
-import org.openapitools.model.VacanciesRs;
-import org.openapitools.model.VacancyDTO;
-import org.openapitools.model.VacancyRq;
+import org.openapitools.model.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.ZonedDateTime;
 
 @RestController
 @RequestMapping("api/v1")
@@ -65,4 +67,22 @@ public class VacancyController implements VacancyApi {
         ));
     }
 
+    /**
+     * POST /vacancy/{id}/apply : Send resume
+     * Send resume
+     *
+     * @return Resume sended (status code 200)
+     *         or Invalid input (status code 400)
+     *         or Ошибка с сервера (status code 500)
+     */
+    @Override
+    public ResponseEntity<AppSecurityRs> sendResume(Long id, ResumeId resumeId) {
+        vacancyService.applyResumeById(id, resumeId.getResumeId());
+        return ResponseEntity.ok(
+                new AppSecurityRs(
+                        HttpStatus.OK.toString(),
+                        "Resume sended",
+                        ZonedDateTime.now()
+        ));
+    }
 }

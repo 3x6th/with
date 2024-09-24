@@ -185,6 +185,71 @@ paths:
                 $ref: '#/components/schemas/EmployerWithVacancyRs'
         '404':
           description: Employer not found
+  /vacancy/{id}/apply:
+    post:
+      summary: Send resume
+      description: Send resume
+      operationId: sendResume
+      tags:
+        - Vacancy
+        - Resume
+      parameters:
+        - name: id
+          in: path
+          description: ID of vacancy
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResumeId'
+      responses:
+        '200':
+          description: Resume sended
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
+        '400':
+          description: Invalid input
+        '500':
+          description: Ошибка с сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
+  /resume/create:
+    post:
+      summary: Create resume
+      description: Create resume
+      operationId: resumeCreate
+      tags:
+        - Resume
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResumeDto'
+      responses:
+        '200':
+          description: Resume created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
+        '400':
+          description: Invalid input
+        '500':
+          description: Ошибка с сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
 
   /employer/{id}:
     get:
@@ -210,6 +275,92 @@ paths:
                 $ref: '#/components/schemas/EmployerDTO'
         '404':
           description: Employer not found
+
+  /employer/register:
+    post:
+      summary: Локальная регистрация эмплоера
+      description: Локальная регистрация эмплоера
+      operationId: employerRegistration
+      tags:
+        - Employer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployerDTO'
+      responses:
+        '200':
+          description: Registration success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
+        '400':
+          description: Invalid input
+        '500':
+          description: Ошибка с сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
+
+  /private/applicant/registration:
+    post:
+      summary: Локальная регистрация апликанта
+      description: Локальная регистрация апликанта
+      operationId: applicantRegistration
+      tags:
+        - Applicant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicantDto'
+      responses:
+        '200':
+          description: Registration success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
+        '400':
+          description: Invalid input
+        '500':
+          description: Ошибка с сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecurityRs'
+#  /private/applicant/resume/create:
+#    post:
+#      summary: Локальная регистрация апликанта
+#      description: Локальная регистрация апликанта
+#      operationId: applicantRegister
+#      tags:
+#        - Applicant
+#      requestBody:
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/ResumeDto'
+#      responses:
+#        '200':
+#          description: Registration success
+#          content:
+#           application/json:
+#              schema:
+#                $ref: '#/components/schemas/AppSecurityRs'
+#        '400':
+#          description: Invalid input
+#        '500':
+#          description: Ошибка с сервера
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/AppSecurityRs'
 
 components:
   schemas:
@@ -373,6 +524,56 @@ components:
 #        - ROLE_ADMIN
         - ROLE_EMPLOYER
         - ROLE_APPLICANT
+    ApplicantDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: First name of the applicant
+          example: "Jhon"
+        secondName:
+          type: string
+          description: Second name of the applicant
+          example: "Doe"
+        email:
+          type: string
+          description: The email of the applicant
+          example: "john.doe@example.com"
+    ResumeDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the resume
+          example: "Java Developer"
+        description:
+          type: string
+          description: Description of the resume
+          example: "Develop and maintain Java applications"
+        desiredSalary:
+          type: string
+          description: Applicant desired salary
+          example: "2000"
+        workMode:
+          type: string
+          description: Applicant desired work mode
+          example: "Remote"
+        location:
+          type: string
+          description: Applicant location
+          example: "New York"
+        tags:
+          type: array
+          description: Array of tags
+          items:
+            type: string
+    ResumeId:
+      type: object
+      properties:
+        resumeId:
+          type: long
+          description: ID of Resume
+          example: "4"
     BaseSecurityRs:
       type: object
       properties:

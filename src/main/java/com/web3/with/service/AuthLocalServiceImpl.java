@@ -33,7 +33,7 @@ public class AuthLocalServiceImpl implements AuthLocalService {
     @Override
     @Transactional
     public void register(RegistrationDto registrationDto) throws BadRequestException {
-        if (userService.existsByEmail(registrationDto.getEmail())) {
+        if (userService.existsByEmail(registrationDto.getEmail()) || userService.existsByLogin(registrationDto.getUsername())) {
             throw new BadRequestException("User already exists");
         }
         var user = userMapper.registrationDtoToUser(registrationDto);
@@ -44,6 +44,7 @@ public class AuthLocalServiceImpl implements AuthLocalService {
             throw new BadRequestException("Role not found");
         }
         user.setRole(role);
+        user.setImageUrl("/images/user.png"); //rushglow
         log.info("Roles before saving: {}", user.getRole());
 
         userService.save(user);

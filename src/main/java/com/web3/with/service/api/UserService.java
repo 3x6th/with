@@ -16,6 +16,10 @@ public interface UserService extends UserDetailsService {
 
     boolean existsByEmail(String identifier);
 
+    boolean existsByLogin(String login);
+
+    UserEntity findByEmail(String email);
+
     UserEntity save(UserEntity user);
 
 }

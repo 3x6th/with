@@ -38,4 +38,6 @@ public interface VacancyService {
      */
     VacanciesRs getVacanciesByKeyword(int pageNumber, String keyword);
 
+
+    void applyResumeById(Long id, Long resumeId);
 }
