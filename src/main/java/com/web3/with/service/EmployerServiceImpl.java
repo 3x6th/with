@@ -1,9 +1,14 @@
 package com.web3.with.service;
 
+import com.web3.with.entity.EmployerEntity;
+import com.web3.with.entity.UserEntity;
+import com.web3.with.exception.http.BadRequestException;
 import com.web3.with.exception.http.NotFoundException;
 import com.web3.with.mapper.EmployerMapper;
 import com.web3.with.mapper.VacancyMapper;
 import com.web3.with.repository.EmployerRepository;
+import com.web3.with.repository.UserRepository;
+import com.web3.with.security.model.context.UserContext;
 import com.web3.with.service.api.EmployerService;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +26,10 @@ public class EmployerServiceImpl implements EmployerService {
     private final EmployerMapper employerMapper;
 
     private final VacancyMapper vacancyMapper;
+
+    private final UserRepository userRepository;
+
+    private final UserContext userContext;
 
     @Transactional(readOnly = true)
     @Override
@@ -43,6 +52,18 @@ public class EmployerServiceImpl implements EmployerService {
                                      return dto;
                                  })
                                  .orElseThrow(() -> new NotFoundException("employer not found"));
+    }
+
+    @Override
+    public void employerRegistration(EmployerEntity employerEntity) {
+        UserEntity user = userRepository.findByEmail(userContext.getCurrentUser().getEmail());
+        if (employerRepository.existsByEmail(employerEntity.getEmail())){
+            throw new BadRequestException("Applicant already exists");
+        }else{
+            employerEntity.setUser(user);
+            employerRepository.save(employerEntity);
+            user.setEmployers(employerEntity);
+        }
     }
 
 }

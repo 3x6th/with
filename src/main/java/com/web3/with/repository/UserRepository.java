@@ -29,6 +29,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "WHERE u.email = :identifier OR u.login = :identifier")
     Optional<UserEntity> findByEmailOrLogin(@Param("identifier") String identifier);
 
+    UserEntity findByEmail(String email);
 
     @Query("SELECT CASE WHEN COUNT(u) > 0 " +
             "THEN TRUE ELSE FALSE END " +
@@ -36,4 +37,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "WHERE u.email = :identifier OR u.login = :identifier")
     boolean existsByEmailOrLogin(@Param("identifier") String identifier);
 
+    UserEntity findById(long id);
 }

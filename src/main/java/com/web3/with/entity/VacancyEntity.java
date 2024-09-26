@@ -11,8 +11,9 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.*;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -56,4 +57,11 @@ public class VacancyEntity {
     })
     private Set<TagEntity> tagList = new HashSet<>();
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "vacancy_resume", joinColumns = {@JoinColumn(name = "vacancy_id")}, inverseJoinColumns = {@JoinColumn(name = "resume_id")})
+    private List<ResumeEntity> resumes = new ArrayList<>();
+
+    public void setResumes(ResumeEntity resumes) {
+        this.resumes.add(resumes);
+    }
 }

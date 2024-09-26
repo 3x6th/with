@@ -28,4 +28,7 @@ public class TagEntity {
     @ManyToMany(mappedBy = "tagList")
     private Set<VacancyEntity> vacancies = new HashSet<>();
 
+    @ManyToMany(mappedBy = "tagList")
+    private Set<ResumeEntity> resumes = new HashSet<>();
+
 }
